@@ -1,13 +1,7 @@
 <template>
   <el-tabs v-model="activeName" @tab-click="handleClick">
     <el-tab-pane label="地址分析" name="first">
-      <el-row :gutter="20">
-        <el-col :span="12" :offset="6">
-          <div class="grid-content bg-purple">
-            <adressAnalysis></adressAnalysis>
-          </div>
-        </el-col>
-      </el-row>
+      <adressAnalysis></adressAnalysis>
     </el-tab-pane>
     <el-tab-pane label="地址别名查询" name="second">
       <el-row :gutter="20">
@@ -51,3 +45,11 @@ export default {
   }
 };
 </script>
+<style>
+.el-tabs__header {
+}
+.el-tabs__item {
+  color: #ffffff;
+  font-size: 16px;
+}
+</style>
