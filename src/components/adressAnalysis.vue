@@ -15,10 +15,33 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="18" :offset="3">
+      <el-col :span="20" :offset="2">
         <div class="adressResult" v-if="is_ResultList">
           <p class="split-result">切分结果</p>
-          <div class="split-result-list" v-for="(item,index) in dataList" :key="index">
+          <div class="split-result-list" v-if="best_match_result">
+            <el-row>
+              <el-col :span="16">
+                <div class="Result-list">
+                  <el-button round v-if="best_match_result.source">{{best_match_result.source.city}}</el-button>
+                  <el-button round v-if="best_match_result.source">{{best_match_result.source.community}}</el-button>
+                  <el-button round v-if="best_match_result.source">{{best_match_result.source.county}}</el-button>
+                  <el-button round v-if="best_match_result.source">{{best_match_result.source.paichusuo}}</el-button>
+                  <el-button round v-if="best_match_result.source">{{best_match_result.source.road}}</el-button>
+                  <el-button round v-if="best_match_result.source">{{best_match_result.source.village}}</el-button>
+                </div>
+              </el-col>
+              <el-col :span="7" :offset="1">
+                <p class="tips">
+                  <span>相似度:</span>
+                  <span v-if="best_match_result.score">{{(best_match_result.score).toFixed(2)}}分</span>
+                  <span style="margin-left:10px">地址来源:</span>
+                  <span>{{best_match_result.match_source === 0?'警方地址库':''}}</span>
+                  <span>{{best_match_result.match_source === 1?'Poli库':''}}</span>
+                </p>
+              </el-col>
+            </el-row>
+          </div>
+          <div class="split-result-list" v-for="(item,index) in rest_match_result" :key="index">
             <el-row>
               <el-col :span="16">
                 <div class="Result-list">
@@ -27,6 +50,7 @@
                   <el-button round v-if="item.source.county">{{item.source.county}}</el-button>
                   <el-button round v-if="item.source.paichusuo">{{item.source.paichusuo}}</el-button>
                   <el-button round v-if="item.source.road">{{item.source.road}}</el-button>
+                  <el-button round v-if="item.source.road">{{item.source.village}}</el-button>
                 </div>
               </el-col>
               <el-col :span="7" :offset="1">
@@ -58,6 +82,8 @@ export default {
       address: "",
       is_ResultList: false,
       dataList: "",
+      best_match_result: "",
+      rest_match_result: "",
       splitWord: "",
       tags: []
     };
@@ -74,7 +100,8 @@ export default {
         this.is_ResultList = true;
       });
       this.$http.get("http://172.21.39.76:3000/").then(response => {
-        this.dataList = JSON.parse(response.request.response).dataList;
+        this.best_match_result = JSON.parse(response.request.response).best_match_result;
+        this.rest_match_result = JSON.parse(response.request.response).rest_match_result;
         this.is_ResultList = true;
       });
     },
