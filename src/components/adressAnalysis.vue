@@ -51,6 +51,7 @@
 <script>
 import axios from "axios";
 import { type } from "os";
+
 export default {
   data() {
     return {
