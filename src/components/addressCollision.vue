@@ -1,0 +1,226 @@
+<template>
+  <div>
+    <el-row>
+      <el-col :span="18" :offset="3">
+        <el-row style="margin-top:15px">
+          <el-col :span="4">
+            <p class="input_header">请输入地址</p>
+          </el-col>
+          <el-col :span="20">
+            <el-input v-if="address" placeholder="请输入地址" v-model="address" @keyup.enter.native="addrCollision">
+              <el-button slot="append" icon="el-icon-search" @click="addrCollision"></el-button>
+            </el-input>
+            <el-input v-else placeholder="请输入地址" v-model="address">
+              <el-button slot="append" icon="el-icon-search"></el-button>
+            </el-input>
+            <div></div>
+          </el-col>
+        </el-row>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col class="split-content">
+        <div class="adressResult" v-if="is_ResultList">
+          <p class="split-result">标准地址库匹配结果</p>
+          <div class="split-result-list" v-if="best_match_result">
+            <el-row>
+              <el-col class="split-adress">
+                <div class="Result-list">
+                  <el-button round v-if="best_match_result.address.city">{{best_match_result.address.city}}</el-button>
+                  <el-button round v-if="best_match_result.address.county">{{best_match_result.address.county}}</el-button>
+                  <el-button round v-if="best_match_result.address.village">{{best_match_result.address.village}}</el-button>
+                  <el-button round v-if="best_match_result.address.community">{{best_match_result.address.community}}</el-button>
+                  <el-button round v-if="best_match_result.address.road">{{best_match_result.address.road}}</el-button>
+                  <el-button round v-if="best_match_result.address.hamlet">{{best_match_result.address.hamlet}}</el-button>
+                </div>
+              </el-col>
+            </el-row>
+          </div>
+          <div v-show="rest_match">
+            <p class="collision-result">碰撞地址对结果</p>
+            <div class="collision-result-list" v-for="(item,index) in rest_match_result" :key="index">
+              <el-row>
+                <el-col :span="1" class="collision-list">{{index+1}}:</el-col>
+                <el-col :span="21" style="text-align:left">
+                  <div class="left-result-list">
+                    <span class="tag-sort">A{{index+1}}</span>
+                    <el-button :type="buttontype[item.tag]" round v-if="item.left.city">{{item.left.city}}</el-button>
+                    <el-button :type="buttontype[item.tag]" round v-if="item.left.county">{{item.left.county}}</el-button>
+                    <el-button :type="buttontype[item.tag]" round v-if="item.left.village">{{item.left.village}}</el-button>
+                    <el-button :type="buttontype[item.tag]" round v-if="item.left.community">{{item.left.community}}</el-button>
+                    <el-button :type="buttontype[item.tag]" round v-if="item.left.road">{{item.left.road}}</el-button>
+                    <el-button :type="buttontype[item.tag]" round v-if="item.left.hamlet">{{item.left.hamlet}}</el-button>
+                  </div>
+                  <div class="right-result-list">
+                    <span class="tag-sort">B{{index+1}}</span>
+                    <el-button :type="buttontype[item.tag]" round v-if="item.right.city">{{item.right.city}}</el-button>
+                    <el-button :type="buttontype[item.tag]" round v-if="item.right.county">{{item.right.county}}</el-button>
+                    <el-button :type="buttontype[item.tag]" round v-if="item.right.village">{{item.right.village}}</el-button>
+                    <el-button :type="buttontype[item.tag]" round v-if="item.right.community">{{item.right.community}}</el-button>
+                    <el-button :type="buttontype[item.tag]" round v-if="item.right.road">{{item.right.road}}</el-button>
+                    <el-button :type="buttontype[item.tag]" round v-if="item.right.hamlet">{{item.right.hamlet}}</el-button>
+                  </div>
+                </el-col>
+                <el-col :span="2" class="collision-list">{{item.tag === 0?"已选中":""}}</el-col>
+              </el-row>
+            </div>
+          </div>
+          <div class="more" @click="isRestMatch">
+            <div v-if="!rest_match">
+              <span>展示更多</span>
+              <img class="arrow-more" src="../assets/img/arrow-down.png">
+            </div>
+            <div v-else>
+              <span>收起</span>
+              <img class="arrow-more" src="../assets/img/arrow-up.png">
+            </div>
+          </div>
+        </div>
+      </el-col>
+    </el-row>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      is_ResultList: false,
+      addressMatching: [],
+      address: "",
+      list: [],
+      loading: false,
+      best_match_result: "",
+      rest_match_result: "",
+      rest_match: false,
+      buttontype: ["primary", ""]
+    };
+  },
+  mounted() {},
+  methods: {
+    addrCollision() {
+      const loading = this.$loading({
+        lock: true,
+        text: "Loading",
+        spinner: "el-icon-loading",
+        background: "rgba(0, 0, 0, 0.7)"
+      });
+      this.$axios({
+        method: "get",
+        url: "http://172.21.39.76:3000/"
+        // url: `${this.global.baseURL}` + "/search_all?address=" + `${this.address}`
+      })
+        .then(res => {
+          loading.close();
+          this.best_match_result = res.data.result2.best_match;
+          this.rest_match_result = res.data.result2.rest_match;
+          this.is_ResultList = true;
+        })
+        .catch(err => {
+          loading.close();
+          this.$message.error("哦噢！数据出错了，请联系系统管理员");
+        });
+    },
+    isRestMatch() {
+      this.rest_match = !this.rest_match;
+    }
+  }
+};
+</script>
+<style>
+.el-select {
+  width: 100%;
+}
+.input_header {
+  color: #ffffff;
+  font-size: 16px;
+  line-height: 45px;
+}
+.more {
+  color: #ffffff;
+  cursor: pointer;
+  margin-top: 40px;
+  margin-bottom: 30px;
+}
+.arrow-more {
+  width: 18px;
+  vertical-align: text-top;
+  margin-left: 5px;
+}
+a {
+  list-style: none;
+  text-decoration: none;
+  color: #909399;
+}
+.split-content {
+  min-width: 83.33333%;
+}
+.split-adress {
+  min-width: 60%;
+}
+.clear_p {
+  text-align: right;
+}
+.clear_input {
+  cursor: pointer;
+  width: 20px;
+  vertical-align: -webkit-baseline-middle;
+}
+.tips {
+  color: #ffffff;
+  margin-top: 10px;
+}
+.split-result {
+  margin-top: 90px;
+  margin-bottom: 40px;
+  color: #eee;
+  font-size: 18px;
+  text-align: left;
+}
+.collision-result {
+  margin-top: 50px;
+  margin-bottom: 40px;
+  color: #eee;
+  font-size: 18px;
+  text-align: left;
+}
+.split-result-list {
+  text-align: left;
+}
+.Result-list {
+  margin-bottom: 20px;
+}
+.collision-result-list {
+  margin-bottom: 10px;
+}
+.left-result-list {
+  margin-bottom: 20px;
+}
+.right-result-list {
+  margin-bottom: 20px;
+}
+.collision-list {
+  color: #ffffff;
+  line-height: 100px;
+}
+.tag-sort {
+  color: #ffffff;
+  margin-left: 20px;
+  margin-right: 10px;
+}
+.el-input__inner {
+  height: 45px;
+  line-height: 45px;
+}
+.tags {
+  position: absolute;
+  width: 65%;
+  top: 23px;
+  left: 13%;
+}
+.el-tag {
+  margin-right: 10px;
+}
+</style>
+
+

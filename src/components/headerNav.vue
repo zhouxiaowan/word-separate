@@ -21,12 +21,20 @@
         </el-col>
       </el-row>
     </el-tab-pane>
+    <el-tab-pane label="地址碰撞" name="four">
+      <addressCollision></addressCollision>
+    </el-tab-pane>
+    <el-tab-pane label="拼音检索" name="five">
+      <PinyinRetrieve></PinyinRetrieve>
+    </el-tab-pane>
   </el-tabs>
 </template>
 <script>
 import adressAnalysis from "./adressAnalysis.vue";
 import adressSelect from "./adressSelect.vue";
 import adressError from "./adressError.vue";
+import addressCollision from "./addressCollision.vue";
+import PinyinRetrieve from "./PinyinRetrieve.vue";
 export default {
   data() {
     return {
@@ -36,7 +44,9 @@ export default {
   components: {
     adressAnalysis,
     adressSelect,
-    adressError
+    adressError,
+    addressCollision,
+    PinyinRetrieve
   },
   methods: {
     handleClick(tab, event) {
