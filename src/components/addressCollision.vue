@@ -13,7 +13,16 @@
             <el-input v-else placeholder="请输入地址" v-model="address">
               <el-button slot="append" icon="el-icon-search"></el-button>
             </el-input>
-            <div></div>
+            <div class="special-word" v-if="splitWords.length">
+              <el-row>
+                <el-col :span="21" style="text-align:left" v-html="splitWords"></el-col>
+                <el-col :span="3">
+                  <p class="clear_p">
+                    <img @click="handleSplitWord" class="clear_input2" src="../assets/img/clear.png">
+                  </p>
+                </el-col>
+              </el-row>
+            </div>
           </el-col>
         </el-row>
       </el-col>
@@ -88,7 +97,7 @@ export default {
       is_ResultList: false,
       addressMatching: [],
       address: "",
-      list: [],
+      splitWords: "",
       loading: false,
       best_match_result: "",
       rest_match_result: "",
@@ -105,6 +114,22 @@ export default {
         spinner: "el-icon-loading",
         background: "rgba(0, 0, 0, 0.7)"
       });
+      //   const specialWords = ["旁边", "附近"];
+      //   const splittags = [];
+      //   specialWords.forEach(value => {
+      //     if (this.address.indexOf(value) > 0) {
+      //       splittags.push(this.address.indexOf(value));
+      //       splittags.push(this.address.indexOf(value) + value.length);
+      //     }
+      //   });
+      //   const splittagsSort = splittags.sort((a, b) => {
+      //     return a - b;
+      //   });
+      const specialWords = ["旁边", "附近", "左边", "右边"]; //任意多个
+      this.splitWords = this.address.replace(new RegExp(specialWords.join("|"), "g"), function(a) {
+        return '<font style="color:red">' + a + "</font>";
+      });
+
       this.$axios({
         method: "get",
         url: "http://172.21.39.76:3000/"
@@ -115,6 +140,7 @@ export default {
           this.best_match_result = res.data.result2.best_match;
           this.rest_match_result = res.data.result2.rest_match;
           this.is_ResultList = true;
+          this.splittags = [];
         })
         .catch(err => {
           loading.close();
@@ -123,6 +149,11 @@ export default {
     },
     isRestMatch() {
       this.rest_match = !this.rest_match;
+    },
+    handleSplitWord() {
+      this.splitWords = "";
+      this.address = "";
+      this.is_ResultList = false;
     }
   }
 };
@@ -161,10 +192,10 @@ a {
 .clear_p {
   text-align: right;
 }
-.clear_input {
+.clear_input2 {
   cursor: pointer;
   width: 20px;
-  vertical-align: -webkit-baseline-middle;
+  vertical-align: text-top;
 }
 .tips {
   color: #ffffff;
@@ -212,14 +243,14 @@ a {
   height: 45px;
   line-height: 45px;
 }
-.tags {
+.special-word {
+  background: #ffffff;
   position: absolute;
-  width: 65%;
-  top: 23px;
-  left: 13%;
-}
-.el-tag {
-  margin-right: 10px;
+  width: 73%;
+  top: 1px;
+  left: 18%;
+  height: 43px;
+  line-height: 43px;
 }
 </style>
 
