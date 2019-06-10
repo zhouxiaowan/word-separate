@@ -153,6 +153,8 @@ export default {
     handleSplitWord() {
       this.splitWords = "";
       this.address = "";
+      this.best_match_result = "";
+      this.rest_match_result = "";
       this.is_ResultList = false;
       this.rest_match = false;
     }

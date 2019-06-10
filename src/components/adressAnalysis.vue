@@ -132,11 +132,10 @@ export default {
       });
       this.$axios({
         method: "get",
-        url: "http://10.9.74.16:3000/"
-        // url: `${this.global.baseURL}` + "/splitword?address=" + `${this.address}`
+        // url: "http://10.9.74.16:3000/"
+        url: `${this.global.baseURL}` + "/splitword?address=" + `${this.address}`
       })
         .then(res => {
-          loading.close();
           this.splitWord = JSON.parse(res.request.response).result;
           for (var i in this.splitWord) {
             this.tags.push(this.splitWord[i].word);
@@ -151,8 +150,8 @@ export default {
         });
       this.$axios({
         method: "get",
-        url: "http://10.9.74.16:3000/"
-        // url: `${this.global.baseURL}` + "/search_all?address=" + `${this.address}`
+        // url: "http://10.9.74.16:3000/"
+        url: `${this.global.baseURL}` + "/search_all?address=" + `${this.address}`
       })
         .then(res => {
           loading.close();
@@ -168,6 +167,8 @@ export default {
     },
     handleSplitWord() {
       this.tags = [];
+      this.best_match_result = "";
+      this.rest_match_result = "";
       this.is_ResultList = false;
       this.rest_match = false;
     },
