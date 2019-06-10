@@ -123,7 +123,6 @@ export default {
   components: {},
   methods: {
     adrAnaly() {
-      console.log(this.global.baseURL);
       const loading = this.$loading({
         lock: true,
         text: "Loading",
@@ -142,7 +141,6 @@ export default {
             this.tagtypes.push(this.splitWord[i].tag);
           }
           this.address = "";
-          this.is_ResultList = true;
         })
         .catch(err => {
           loading.close();
@@ -156,7 +154,6 @@ export default {
         .then(res => {
           loading.close();
           this.best_match_result = JSON.parse(res.request.response).best_match_result;
-          console.log("best_match_result", this.best_match_result);
           this.rest_match_result = JSON.parse(res.request.response).rest_match_result;
           this.is_ResultList = true;
         })
