@@ -30,8 +30,8 @@
     <el-row>
       <el-col class="split-content">
         <div class="adressResult" v-if="is_ResultList">
-          <p class="split-result">标准地址库匹配结果</p>
-          <div class="split-result-list" v-if="best_match_result">
+          <div class="split-result-list" v-if="Object.keys(best_match_result).length">
+            <p class="split-result">标准地址库匹配结果</p>
             <el-row>
               <el-col class="split-adress">
                 <div class="Result-list">
@@ -45,33 +45,35 @@
               </el-col>
             </el-row>
           </div>
-          <div v-show="rest_match">
-            <p class="collision-result">碰撞地址对结果</p>
-            <div class="collision-result-list" v-for="(item,index) in rest_match_result" :key="index">
-              <el-row>
-                <el-col :span="1" class="collision-list">{{index+1}}:</el-col>
-                <el-col :span="21" style="text-align:left">
-                  <div class="left-result-list">
-                    <span class="tag-sort">A{{index+1}}</span>
-                    <el-button :type="buttontype[item.tag]" round v-if="item.left.city">{{item.left.city}}</el-button>
-                    <el-button :type="buttontype[item.tag]" round v-if="item.left.county">{{item.left.county}}</el-button>
-                    <el-button :type="buttontype[item.tag]" round v-if="item.left.village">{{item.left.village}}</el-button>
-                    <el-button :type="buttontype[item.tag]" round v-if="item.left.community">{{item.left.community}}</el-button>
-                    <el-button :type="buttontype[item.tag]" round v-if="item.left.road">{{item.left.road}}</el-button>
-                    <el-button :type="buttontype[item.tag]" round v-if="item.left.hamlet">{{item.left.hamlet}}</el-button>
-                  </div>
-                  <div class="right-result-list">
-                    <span class="tag-sort">B{{index+1}}</span>
-                    <el-button :type="buttontype[item.tag]" round v-if="item.right.city">{{item.right.city}}</el-button>
-                    <el-button :type="buttontype[item.tag]" round v-if="item.right.county">{{item.right.county}}</el-button>
-                    <el-button :type="buttontype[item.tag]" round v-if="item.right.village">{{item.right.village}}</el-button>
-                    <el-button :type="buttontype[item.tag]" round v-if="item.right.community">{{item.right.community}}</el-button>
-                    <el-button :type="buttontype[item.tag]" round v-if="item.right.road">{{item.right.road}}</el-button>
-                    <el-button :type="buttontype[item.tag]" round v-if="item.right.hamlet">{{item.right.hamlet}}</el-button>
-                  </div>
-                </el-col>
-                <el-col :span="2" class="collision-list">{{item.tag === 0?"已选中":""}}</el-col>
-              </el-row>
+          <div v-if="rest_match_result.length">
+            <div v-show="rest_match">
+              <p class="collision-result">碰撞地址对结果</p>
+              <div class="collision-result-list" v-for="(item,index) in rest_match_result" :key="index">
+                <el-row>
+                  <el-col :span="1" class="collision-list">{{index+1}}:</el-col>
+                  <el-col :span="21" style="text-align:left">
+                    <div class="left-result-list">
+                      <span class="tag-sort">A{{index+1}}</span>
+                      <el-button :type="buttontype[item.tag]" round v-if="item.left.city">{{item.left.city}}</el-button>
+                      <el-button :type="buttontype[item.tag]" round v-if="item.left.county">{{item.left.county}}</el-button>
+                      <el-button :type="buttontype[item.tag]" round v-if="item.left.village">{{item.left.village}}</el-button>
+                      <el-button :type="buttontype[item.tag]" round v-if="item.left.community">{{item.left.community}}</el-button>
+                      <el-button :type="buttontype[item.tag]" round v-if="item.left.road">{{item.left.road}}</el-button>
+                      <el-button :type="buttontype[item.tag]" round v-if="item.left.hamlet">{{item.left.hamlet}}</el-button>
+                    </div>
+                    <div class="right-result-list">
+                      <span class="tag-sort">B{{index+1}}</span>
+                      <el-button :type="buttontype[item.tag]" round v-if="item.right.city">{{item.right.city}}</el-button>
+                      <el-button :type="buttontype[item.tag]" round v-if="item.right.county">{{item.right.county}}</el-button>
+                      <el-button :type="buttontype[item.tag]" round v-if="item.right.village">{{item.right.village}}</el-button>
+                      <el-button :type="buttontype[item.tag]" round v-if="item.right.community">{{item.right.community}}</el-button>
+                      <el-button :type="buttontype[item.tag]" round v-if="item.right.road">{{item.right.road}}</el-button>
+                      <el-button :type="buttontype[item.tag]" round v-if="item.right.hamlet">{{item.right.hamlet}}</el-button>
+                    </div>
+                  </el-col>
+                  <el-col :span="2" class="collision-list">{{item.tag === 0?"已选中":""}}</el-col>
+                </el-row>
+              </div>
             </div>
           </div>
           <div class="more" @click="isRestMatch">
@@ -132,13 +134,13 @@ export default {
 
       this.$axios({
         method: "get",
-        // url: "http://10.9.74.16:3000/"
-        url: `${this.global.baseURL}` + "/addrCollide?address=" + `${this.address}`
+        url: "http://10.9.74.16:3000/"
+        // url: `${this.global.baseURL}` + "/addrCollide?address=" + `${this.address}`
       })
         .then(res => {
           loading.close();
-          this.best_match_result = res.data.result.best_match;
-          this.rest_match_result = res.data.result.rest_match;
+          this.best_match_result = res.data.result2.best_match;
+          this.rest_match_result = res.data.result2.rest_match;
           this.is_ResultList = true;
         })
         .catch(err => {

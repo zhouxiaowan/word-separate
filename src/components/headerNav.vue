@@ -3,7 +3,7 @@
     <el-tab-pane label="地址分析" name="first">
       <adressAnalysis></adressAnalysis>
     </el-tab-pane>
-    <el-tab-pane label="地址别名查询" name="second">
+    <el-tab-pane label="缩写全称匹配" name="second">
       <div class="grid-content bg-purple">
         <adressSelect></adressSelect>
       </div>

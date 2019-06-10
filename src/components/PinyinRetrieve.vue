@@ -105,12 +105,12 @@ export default {
         }
         this.$axios({
           method: "get",
-          url: "http://10.9.74.16:3000/"
-          //   url: `${this.global.baseURL}` + "/address_attention?address=" + `${params.address}` + "?havepinyin=" + `${params.havepinyin}`
+          //   url: "http://10.9.74.16:3000/"
+          url: `${this.global.baseURL}` + "/pinyinSearch?address=" + `${params.address}` + "?havepinyin=" + `${params.havepinyin}`
         })
           .then(res => {
             this.loading = false;
-            this.addressMatching = res.data.attention;
+            this.addressMatching = res.data.result_pinyin;
           })
           .catch(error => {
             console.log(error);
@@ -129,8 +129,8 @@ export default {
       });
       this.$axios({
         method: "get",
-        url: "http://10.9.74.16:3000/"
-        // url: `${this.global.baseURL}` + "/address_bang?address=" + `${this.address}`
+        // url: "http://10.9.74.16:3000/"
+        url: `${this.global.baseURL}` + "/search_all?address=" + `${this.address}`
       })
         .then(res => {
           loading.close();
