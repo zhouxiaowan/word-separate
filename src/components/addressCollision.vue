@@ -154,6 +154,7 @@ export default {
       this.splitWords = "";
       this.address = "";
       this.is_ResultList = false;
+      this.rest_match = false;
     }
   }
 };

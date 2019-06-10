@@ -39,7 +39,7 @@
       <el-col class="split-content">
         <div class="adressResult" v-if="is_ResultList">
           <p class="split-result">标准库匹配结果</p>
-          <div class="split-result-list" v-if="best_match_result">
+          <div class="split-result-list" v-if="Object.keys(best_match_result).length">
             <el-row>
               <el-col :span="16" class="split-adress">
                 <div class="Result-list">
@@ -62,30 +62,32 @@
               </el-col>
             </el-row>
           </div>
-          <div v-show="rest_match" class="split-result-list" v-for="(item,index) in rest_match_result" :key="index">
-            <el-row>
-              <el-col :span="16">
-                <div class="Result-list">
-                  <el-button round v-if="item.source.city">{{item.source.city}}</el-button>
-                  <el-button round v-if="item.source.county">{{item.source.county}}</el-button>
-                  <el-button round v-if="item.source.village">{{item.source.village}}</el-button>
-                  <el-button round v-if="item.source.community">{{item.source.community}}</el-button>
-                  <el-button round v-if="item.source.road">{{item.source.road}}</el-button>
-                  <el-button round v-if="item.source.hamlet">{{item.source.hamlet}}</el-button>
-                </div>
-              </el-col>
-              <el-col :span="7" :offset="1">
-                <p class="tips">
-                  <span>相似度:</span>
-                  <span v-if="item.score">{{(item.score).toFixed(2)}}分</span>
-                  <span style="margin-left:10px">归属地:{{item.paichusuo}}</span>
-                  <!-- <span style="margin-left:10px">地址来源:</span>
+          <div v-if="rest_match_result.length">
+            <div v-show="rest_match" class="split-result-list" v-for="(item,index) in rest_match_result" :key="index">
+              <el-row>
+                <el-col :span="16">
+                  <div class="Result-list">
+                    <el-button round v-if="item.source.city">{{item.source.city}}</el-button>
+                    <el-button round v-if="item.source.county">{{item.source.county}}</el-button>
+                    <el-button round v-if="item.source.village">{{item.source.village}}</el-button>
+                    <el-button round v-if="item.source.community">{{item.source.community}}</el-button>
+                    <el-button round v-if="item.source.road">{{item.source.road}}</el-button>
+                    <el-button round v-if="item.source.hamlet">{{item.source.hamlet}}</el-button>
+                  </div>
+                </el-col>
+                <el-col :span="7" :offset="1">
+                  <p class="tips">
+                    <span>相似度:</span>
+                    <span v-if="item.score">{{(item.score).toFixed(2)}}分</span>
+                    <span style="margin-left:10px">归属地:{{item.paichusuo}}</span>
+                    <!-- <span style="margin-left:10px">地址来源:</span>
                   <span>{{item.match_source === 0?'警方地址库':''}}</span>
                   <span>{{item.match_source === 1?'Poli库':''}}</span>
-                  <span>{{item.match_source === 2?'暂无精准匹配来源':''}}</span>-->
-                </p>
-              </el-col>
-            </el-row>
+                    <span>{{item.match_source === 2?'暂无精准匹配来源':''}}</span>-->
+                  </p>
+                </el-col>
+              </el-row>
+            </div>
           </div>
           <div class="more" @click="isRestMatch">
             <div v-if="!rest_match">
@@ -155,6 +157,7 @@ export default {
         .then(res => {
           loading.close();
           this.best_match_result = JSON.parse(res.request.response).best_match_result;
+          console.log("best_match_result", this.best_match_result);
           this.rest_match_result = JSON.parse(res.request.response).rest_match_result;
           this.is_ResultList = true;
         })
@@ -166,6 +169,7 @@ export default {
     handleSplitWord() {
       this.tags = [];
       this.is_ResultList = false;
+      this.rest_match = false;
     },
     handleClose(tag) {
       this.tags.splice(this.tags.indexOf(tag), 1);

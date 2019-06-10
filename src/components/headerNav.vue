@@ -34,7 +34,7 @@ import PinyinRetrieve from "./PinyinRetrieve.vue";
 export default {
   data() {
     return {
-      activeName: "four"
+      activeName: "first"
     };
   },
   components: {
