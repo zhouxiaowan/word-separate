@@ -4,13 +4,9 @@
       <adressAnalysis></adressAnalysis>
     </el-tab-pane>
     <el-tab-pane label="地址别名查询" name="second">
-      <el-row :gutter="20">
-        <el-col :span="12" :offset="6">
-          <div class="grid-content bg-purple">
-            <adressSelect></adressSelect>
-          </div>
-        </el-col>
-      </el-row>
+      <div class="grid-content bg-purple">
+        <adressSelect></adressSelect>
+      </div>
     </el-tab-pane>
     <el-tab-pane label="地址纠错" name="third">
       <el-row :gutter="20">
@@ -24,7 +20,7 @@
     <el-tab-pane label="地址碰撞" name="four">
       <addressCollision></addressCollision>
     </el-tab-pane>
-    <el-tab-pane label="拼音检索" name="five">
+    <el-tab-pane label="混合检索" name="five">
       <PinyinRetrieve></PinyinRetrieve>
     </el-tab-pane>
   </el-tabs>

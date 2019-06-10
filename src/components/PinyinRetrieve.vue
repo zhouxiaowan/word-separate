@@ -105,7 +105,7 @@ export default {
         }
         this.$axios({
           method: "get",
-          url: "http://172.21.39.76:3000/"
+          url: "http://10.9.74.16:3000/"
           //   url: `${this.global.baseURL}` + "/address_attention?address=" + `${params.address}` + "?havepinyin=" + `${params.havepinyin}`
         })
           .then(res => {
@@ -129,7 +129,7 @@ export default {
       });
       this.$axios({
         method: "get",
-        url: "http://172.21.39.76:3000/"
+        url: "http://10.9.74.16:3000/"
         // url: `${this.global.baseURL}` + "/address_bang?address=" + `${this.address}`
       })
         .then(res => {
