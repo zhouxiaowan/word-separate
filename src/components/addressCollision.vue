@@ -133,7 +133,7 @@ export default {
       this.$axios({
         method: "get",
         // url: "http://10.9.74.16:3000/"
-        url: `${this.global.baseURL}` + "/address_bang?address=" + `${this.address}`
+        url: `${this.global.baseURL}` + "/addrCollide?address=" + `${this.address}`
       })
         .then(res => {
           loading.close();
