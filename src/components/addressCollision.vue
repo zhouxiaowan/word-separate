@@ -132,15 +132,14 @@ export default {
 
       this.$axios({
         method: "get",
-        url: "http://10.9.74.16:3000/"
-        // url: `${this.global.baseURL}` + "/search_all?address=" + `${this.address}`
+        // url: "http://10.9.74.16:3000/"
+        url: `${this.global.baseURL}` + "/address_bang?address=" + `${this.address}`
       })
         .then(res => {
           loading.close();
-          this.best_match_result = res.data.result2.best_match;
-          this.rest_match_result = res.data.result2.rest_match;
+          this.best_match_result = res.data.result.best_match;
+          this.rest_match_result = res.data.result.rest_match;
           this.is_ResultList = true;
-          this.splittags = [];
         })
         .catch(err => {
           loading.close();

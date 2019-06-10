@@ -131,8 +131,8 @@ export default {
       });
       this.$axios({
         method: "get",
-        // url: "http://10.9.74.16:3000/"
-        url: `${this.global.baseURL}` + "/splitword?address=" + `${this.address}`
+        url: "http://10.9.74.16:3000/"
+        // url: `${this.global.baseURL}` + "/splitword?address=" + `${this.address}`
       })
         .then(res => {
           this.splitWord = JSON.parse(res.request.response).result;
@@ -148,8 +148,8 @@ export default {
         });
       this.$axios({
         method: "get",
-        // url: "http://10.9.74.16:3000/"
-        url: `${this.global.baseURL}` + "/search_all?address=" + `${this.address}`
+        url: "http://10.9.74.16:3000/"
+        // url: `${this.global.baseURL}` + "/search_all?address=" + `${this.address}`
       })
         .then(res => {
           loading.close();
@@ -171,6 +171,10 @@ export default {
     },
     handleClose(tag) {
       this.tags.splice(this.tags.indexOf(tag), 1);
+      if (this.tags.length === 0) {
+        this.is_ResultList = false;
+        this.rest_match = false;
+      }
     },
     isRestMatch() {
       this.rest_match = !this.rest_match;
