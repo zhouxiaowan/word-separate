@@ -48,7 +48,10 @@ export default {
   mounted() {},
   methods: {
     adrAnaly() {
-      this.$http.get("http://localhost:5000/abbreviation?address=" + `${this.address}`).then(response => {
+      this.$axios({
+        method: "get",
+        url: "http://localhost:5000/abbreviation?address=" + `${this.address}`
+      }).then(response => {
         this.result1 = JSON.parse(response.request.response).result1;
         this.is_ResultList = true;
       });

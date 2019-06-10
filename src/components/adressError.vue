@@ -29,8 +29,6 @@
   </div>
 </template>
 <script>
-import axios from "axios";
-
 export default {
   data() {
     return {
@@ -42,7 +40,10 @@ export default {
   components: {},
   methods: {
     adrAnaly() {
-      this.$http.get("http://localhost:5000/correct?address=" + `${this.address}`).then(response => {
+      this.$axios({
+        method: "get",
+        url: "http://localhost:5000/correct?address=" + `${this.address}`
+      }).then(response => {
         this.result2 = JSON.parse(response.request.response).result2;
         this.is_ResultList = true;
       });
