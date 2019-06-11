@@ -77,14 +77,17 @@
             </div>
           </div>
           <div class="more" @click="isRestMatch">
-            <div v-if="!rest_match">
-              <span>展示更多</span>
-              <img class="arrow-more" src="../assets/img/arrow-down.png">
+            <div v-if="Object.keys(best_match_result).length||rest_match_result.length">
+              <div v-if="!rest_match">
+                <span>展示更多</span>
+                <img class="arrow-more" src="../assets/img/arrow-down.png">
+              </div>
+              <div v-else>
+                <span>收起</span>
+                <img class="arrow-more" src="../assets/img/arrow-up.png">
+              </div>
             </div>
-            <div v-else>
-              <span>收起</span>
-              <img class="arrow-more" src="../assets/img/arrow-up.png">
-            </div>
+            <div v-else>无</div>
           </div>
         </div>
       </el-col>
@@ -116,17 +119,6 @@ export default {
         spinner: "el-icon-loading",
         background: "rgba(0, 0, 0, 0.7)"
       });
-      //   const specialWords = ["旁边", "附近"];
-      //   const splittags = [];
-      //   specialWords.forEach(value => {
-      //     if (this.address.indexOf(value) > 0) {
-      //       splittags.push(this.address.indexOf(value));
-      //       splittags.push(this.address.indexOf(value) + value.length);
-      //     }
-      //   });
-      //   const splittagsSort = splittags.sort((a, b) => {
-      //     return a - b;
-      //   });
       const specialWords = ["旁边", "附近", "左边", "右边"]; //任意多个
       this.splitWords = this.address.replace(new RegExp(specialWords.join("|"), "g"), function(a) {
         return '<font style="color:red">' + a + "</font>";
@@ -134,17 +126,18 @@ export default {
 
       this.$axios({
         method: "get",
-        url: "http://10.9.74.16:3000/"
-        // url: `${this.global.baseURL}` + "/addrCollide?address=" + `${this.address}`
+        // url: this.global.localURL
+        url: `${this.global.baseURL}` + "/addrCollide?address=" + `${this.address}`
       })
         .then(res => {
           loading.close();
-          this.best_match_result = res.data.result2.best_match;
-          this.rest_match_result = res.data.result2.rest_match;
+          this.best_match_result = res.data.best_match;
+          this.rest_match_result = res.data.rest_match;
           this.is_ResultList = true;
         })
         .catch(err => {
           loading.close();
+          console.log("err:", err);
           this.$message.error("哦噢！数据出错了，请联系系统管理员");
         });
     },

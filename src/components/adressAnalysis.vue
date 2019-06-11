@@ -131,7 +131,7 @@ export default {
       });
       this.$axios({
         method: "get",
-        url: "http://10.9.74.16:3000/"
+        url: this.global.localURL
         // url: `${this.global.baseURL}` + "/splitword?address=" + `${this.address}`
       })
         .then(res => {
@@ -148,7 +148,7 @@ export default {
         });
       this.$axios({
         method: "get",
-        url: "http://10.9.74.16:3000/"
+        url: this.global.localURL
         // url: `${this.global.baseURL}` + "/search_all?address=" + `${this.address}`
       })
         .then(res => {
