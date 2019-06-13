@@ -59,7 +59,7 @@
                   </el-col>
                   <el-col :span="20" style="text-align:left">
                     <div class="left-result-list">
-                      <span class="tag-sort">A{{index+1}}</span>
+                      <span class="tag-sort">地址一</span>
                       <el-button :type="buttontype[item.tag]" round v-if="item.left.city">{{item.left.city}}</el-button>
                       <el-button :type="buttontype[item.tag]" round v-if="item.left.county">{{item.left.county}}</el-button>
                       <el-button :type="buttontype[item.tag]" round v-if="item.left.village">{{item.left.village}}</el-button>
@@ -71,7 +71,7 @@
                       </span>-->
                     </div>
                     <div class="right-result-list">
-                      <span class="tag-sort">B{{index+1}}</span>
+                      <span class="tag-sort">地址二</span>
                       <el-button :type="buttontype[item.tag]" round v-if="item.right.city">{{item.right.city}}</el-button>
                       <el-button :type="buttontype[item.tag]" round v-if="item.right.county">{{item.right.county}}</el-button>
                       <el-button :type="buttontype[item.tag]" round v-if="item.right.village">{{item.right.village}}</el-button>
