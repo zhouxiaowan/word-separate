@@ -108,10 +108,8 @@ export default {
   data() {
     return {
       is_ResultList: false,
-      addressMatching: [],
       address: "",
       splitWords: "",
-      loading: false,
       best_match_result: "",
       rest_match_result: "",
       rest_match: false,
@@ -134,13 +132,13 @@ export default {
 
       this.$axios({
         method: "get",
-        // url: this.global.localURL
-        url: `${this.global.baseURL}` + "/addrCollide?address=" + `${this.address}`
+        url: this.global.localURL
+        // url: `${this.global.baseURL}` + "/addrCollide?address=" + `${this.address}`
       })
         .then(res => {
           loading.close();
-          this.best_match_result = res.data.best_match;
-          this.rest_match_result = res.data.rest_match;
+          this.best_match_result = res.data.data.best_match;
+          this.rest_match_result = res.data.data.rest_match;
           this.is_ResultList = true;
         })
         .catch(err => {

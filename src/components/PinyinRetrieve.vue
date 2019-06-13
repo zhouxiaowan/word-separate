@@ -108,8 +108,8 @@ export default {
         }
         this.$axios({
           method: "get",
-          // url: this.global.localURL
-          url: `${this.global.baseURL}` + "/pinyinSearch?address=" + `${params.address}` + "?havepinyin=" + `${params.havepinyin}`
+          url: this.global.localURL
+          // url: `${this.global.baseURL}` + "/pinyinSearch?address=" + `${params.address}` + "?havepinyin=" + `${params.havepinyin}`
         })
           .then(res => {
             this.loading = false;
@@ -131,8 +131,8 @@ export default {
       });
       this.$axios({
         method: "get",
-        // url: this.global.localURL
-        url: `${this.global.baseURL}` + "/search_all?address=" + `${this.address}`
+        url: this.global.localURL
+        // url: `${this.global.baseURL}` + "/search_all?address=" + `${this.address}`
       })
         .then(res => {
           loading.close();

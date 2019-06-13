@@ -18,7 +18,8 @@ app.use('/', function (req, res) {
                 'paichusuo': '胥浦派出所'
             },
             'score': 111.7288,
-            'paichusuo': '胥浦派出所'
+            'paichusuo': '胥浦派出所',
+            'tag': 0
         },
         rest_match_result: [{
             'match_source': 0,
