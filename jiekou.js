@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 app.use('/', function (req, res) {
-    res.header("Access-Control-Allow-Origin", "http://10.9.74.16:8080"); //项目上线后改成页面的地址
+    res.header("Access-Control-Allow-Origin", "http://10.18.16.156:8080"); //项目上线后改成页面的地址
     res.header("Access-Control-Allow-Headers", "X-Requested-With,Content-Type");
     res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
     res.send({
@@ -81,8 +81,8 @@ app.use('/', function (req, res) {
         //     'label': '广州',
         //     'value': '6'
         // }],
-        attention: ['北京市朝阳区', '北京市海淀区', '上海', '广州'],
-        result2: {
+        result_pinyin: ['北京市朝阳区', '北京市海淀区', '上海', '广州'],
+        data: {
             "best_match": {
                 "address": {
                     "city": "扬州市",

@@ -7,9 +7,12 @@
             <p class="input_header">请输入地址</p>
           </el-col>
           <el-col :span="20">
-            <el-select v-model="address" clearable filterable remote placeholder="请输入地址" :remote-method="remoteSearchAddress" :loading="loading" @change="handelSelectChange">
+            <el-select v-model="address" filterable remote placeholder="请输入地址" :remote-method="remoteSearchAddress" :loading="loading" @change="handelSelectChange">
               <el-option v-for="item in addressMatching" :key="item" :label="item" :value="item"></el-option>
             </el-select>
+            <p class="clear_p" v-if="address">
+              <img @click="handleSplitWord" class="clear_input2" src="../assets/img/clear.png">
+            </p>
           </el-col>
         </el-row>
       </el-col>
@@ -113,7 +116,6 @@ export default {
             this.addressMatching = res.data.result_pinyin;
           })
           .catch(error => {
-            console.log(error);
             this.$message.error("哦噢！数据出错了，请联系系统管理员");
           });
       } else {
@@ -145,11 +147,18 @@ export default {
     },
     isRestMatch() {
       this.rest_match = !this.rest_match;
+    },
+    handleSplitWord() {
+      this.address = "";
+      this.best_match_result = "";
+      this.rest_match_result = "";
+      this.is_ResultList = false;
+      this.rest_match = false;
     }
   }
 };
 </script>
-<style>
+<style scoped>
 .el-select {
   width: 100%;
 }
@@ -181,7 +190,9 @@ a {
   min-width: 60%;
 }
 .clear_p {
-  text-align: right;
+  position: absolute;
+  right: 18px;
+  top: 13px;
 }
 .clear_input {
   cursor: pointer;

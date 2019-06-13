@@ -50,8 +50,14 @@
               <p class="collision-result">碰撞地址对结果</p>
               <div class="collision-result-list" v-for="(item,index) in rest_match_result" :key="index">
                 <el-row>
-                  <el-col :span="1" class="collision-list">{{index+1}}:</el-col>
-                  <el-col :span="21" style="text-align:left">
+                  <el-col :span="1" style="line-height:100px;color:#fff">{{index+1}}:</el-col>
+                  <el-col :span="3" style="line-height:100px;color:#fff">
+                    <span class="collision-list">
+                      <i class="el-icon-check" style="font-size:18px;margin-right:10px;" v-if="item.tag === 0"></i>
+                      {{item.tag === 0?'已选中':''}}
+                    </span>
+                  </el-col>
+                  <el-col :span="20" style="text-align:left">
                     <div class="left-result-list">
                       <span class="tag-sort">A{{index+1}}</span>
                       <el-button :type="buttontype[item.tag]" round v-if="item.left.city">{{item.left.city}}</el-button>
@@ -60,6 +66,9 @@
                       <el-button :type="buttontype[item.tag]" round v-if="item.left.community">{{item.left.community}}</el-button>
                       <el-button :type="buttontype[item.tag]" round v-if="item.left.road">{{item.left.road}}</el-button>
                       <el-button :type="buttontype[item.tag]" round v-if="item.left.hamlet">{{item.left.hamlet}}</el-button>
+                      <!-- <span class="collision-list" v-if="item.tag === 0">
+                        <i class="el-icon-check" style="font-size:18px;margin-right:10px;"></i>已选中
+                      </span>-->
                     </div>
                     <div class="right-result-list">
                       <span class="tag-sort">B{{index+1}}</span>
@@ -71,7 +80,6 @@
                       <el-button :type="buttontype[item.tag]" round v-if="item.right.hamlet">{{item.right.hamlet}}</el-button>
                     </div>
                   </el-col>
-                  <el-col :span="2" class="collision-list">{{item.tag === 0?"已选中":""}}</el-col>
                 </el-row>
               </div>
             </div>
@@ -137,7 +145,6 @@ export default {
         })
         .catch(err => {
           loading.close();
-          console.log("err:", err);
           this.$message.error("哦噢！数据出错了，请联系系统管理员");
         });
     },
@@ -228,8 +235,9 @@ a {
   margin-bottom: 20px;
 }
 .collision-list {
-  color: #ffffff;
-  line-height: 100px;
+  color: #fff;
+  margin-left: 20px;
+  padding: 5px 10px;
 }
 .tag-sort {
   color: #ffffff;
