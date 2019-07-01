@@ -57,14 +57,16 @@
               <el-row>
                 <el-col :span="16" class="split-adress">
                   <div class="Result-list">
-                    <el-button round v-if="best_match_result.source.city">{{best_match_result.source.city}}</el-button>
+                    <!-- <el-button round v-if="best_match_result.source.city">{{best_match_result.source.city}}</el-button> -->
                     <el-button round v-if="best_match_result.source.county">{{best_match_result.source.county}}</el-button>
                     <el-button round v-if="best_match_result.source.village">{{best_match_result.source.village}}</el-button>
                     <el-button round v-if="best_match_result.source.community">{{best_match_result.source.community}}</el-button>
                     <el-button round v-if="best_match_result.source.road&&best_match_result.tag !== 2">{{best_match_result.source.road}}</el-button>
                     <el-button round v-if="best_match_result.source.road&&best_match_result.tag === 2" type="info">{{best_match_result.source.road}}</el-button>
+                    <el-button round v-if="best_match_result.source.hao||best_match_result.source.zhuang">{{best_match_result.source.hao||''}}{{best_match_result.source.zhuang||''}}</el-button>
                     <el-button round v-if="best_match_result.source.hamlet&&best_match_result.tag === 0">{{best_match_result.source.hamlet}}</el-button>
                     <el-button round v-if="best_match_result.source.hamlet&&best_match_result.tag !== 0" type="info">{{best_match_result.source.hamlet}}</el-button>
+                    <el-button round v-if="best_match_result.source.unit">{{best_match_result.source.unit}}</el-button>
                   </div>
                 </el-col>
                 <el-col :span="7" :offset="1">
@@ -79,12 +81,14 @@
                 <el-row>
                   <el-col :span="16">
                     <div class="Result-list">
-                      <el-button round v-if="item.source.city">{{item.source.city}}</el-button>
+                      <!-- <el-button round v-if="item.source.city">{{item.source.city}}</el-button> -->
                       <el-button round v-if="item.source.county">{{item.source.county}}</el-button>
                       <el-button round v-if="item.source.village">{{item.source.village}}</el-button>
                       <el-button round v-if="item.source.community">{{item.source.community}}</el-button>
                       <el-button round v-if="item.source.road">{{item.source.road}}</el-button>
+                      <el-button round v-if="item.source.hao||item.source.zhuang">{{item.source.hao||''}}{{item.source.zhuang||''}}</el-button>
                       <el-button round v-if="item.source.hamlet">{{item.source.hamlet}}</el-button>
+                      <el-button round v-if="item.source.unit">{{item.source.unit}}</el-button>
                     </div>
                   </el-col>
                   <el-col :span="7" :offset="1">
@@ -244,11 +248,12 @@ export default {
         });
         this.$axios({
           method: "get",
-          // url: this.global.localURL
+          // url: `${this.global.localURL}` + "/pengzhuang"
           url: `${this.global.baseURL}` + "/addrCollide?address=" + `${this.address}`
         })
           .then(res => {
             loading.close();
+            console.log(res);
             this.best_match_result = res.data.best_match;
             this.rest_match_result = res.data.rest_match;
             this.is_ResultList = true;
@@ -366,6 +371,15 @@ a {
   left: 18%;
   height: 43px;
   line-height: 43px;
+}
+.el-button.is-round {
+  border-radius: 20px;
+  padding: 12px 23px;
+  margin-right: 10px;
+  /* margin-top: 10px; */
+}
+.el-button + .el-button {
+  margin-left: 0px;
 }
 </style>
 
