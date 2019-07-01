@@ -66,7 +66,11 @@
                     <el-button round v-if="best_match_result.source.hao">{{best_match_result.source.hao}}号</el-button>
                     <el-button round v-if="best_match_result.source.hamlet&&best_match_result.tag === 0">{{best_match_result.source.hamlet}}</el-button>
                     <el-button round v-if="best_match_result.source.hamlet&&best_match_result.tag !== 0" type="info">{{best_match_result.source.hamlet}}</el-button>
-                    <el-button round v-if="best_match_result.source.zhuang||best_match_result.source.unit">{{best_match_result.source.zhuang}}{{best_match_result.source.unit}}</el-button>
+                    <el-button round v-if="best_match_result.source.zhuang||best_match_result.source.unit">
+                      {{best_match_result.source.zhuang}}
+                      <span v-if="best_match_result.source.zhuang">幢</span>
+                      {{best_match_result.source.unit}}
+                    </el-button>
                   </div>
                 </el-col>
                 <el-col :span="7" :offset="1">
@@ -88,7 +92,11 @@
                       <el-button round v-if="item.source.road">{{item.source.road}}</el-button>
                       <el-button round v-if="item.source.hao">{{item.source.hao}}号</el-button>
                       <el-button round v-if="item.source.hamlet">{{item.source.hamlet}}</el-button>
-                      <el-button round v-if="item.source.zhuang||item.source.unit">{{item.source.zhuang||''}}{{item.source.unit||''}}</el-button>
+                      <el-button round v-if="item.source.zhuang||item.source.unit">
+                        {{item.source.zhuang}}
+                        <span v-if="item.source.zhuang">幢</span>
+                        {{item.source.unit||''}}
+                      </el-button>
                     </div>
                   </el-col>
                   <el-col :span="7" :offset="1">
@@ -211,8 +219,8 @@ export default {
       if (this.type === 1) {
         this.$axios({
           method: "get",
-          // url: this.global.localURL
-          url: `${this.global.baseURL}` + "/splitword?address=" + `${this.address}`
+          url: this.global.localURL
+          // url: `${this.global.baseURL}` + "/splitword?address=" + `${this.address}`
         })
           .then(res => {
             this.splitWord = JSON.parse(res.request.response).result;
@@ -228,8 +236,8 @@ export default {
           });
         this.$axios({
           method: "get",
-          // url: this.global.localURL
-          url: `${this.global.baseURL}` + "/search_all_num?address=" + `${this.address}`
+          url: this.global.localURL
+          // url: `${this.global.baseURL}` + "/search_all_num?address=" + `${this.address}`
         })
           .then(res => {
             loading.close();

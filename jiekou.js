@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 app.get('/pengzhuang', function (req, res) {
-    res.header("Access-Control-Allow-Origin", "http://10.9.74.131:8080"); //项目上线后改成页面的地址
+    res.header("Access-Control-Allow-Origin", "http://10.9.74.92:8080"); //项目上线后改成页面的地址
     res.header("Access-Control-Allow-Headers", "X-Requested-With,Content-Type");
     res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
     res.send({
@@ -99,7 +99,7 @@ app.get('/pengzhuang', function (req, res) {
     })
 })
 app.use('/', function (req, res) {
-    res.header("Access-Control-Allow-Origin", "http://10.9.74.131:8080"); //项目上线后改成页面的地址
+    res.header("Access-Control-Allow-Origin", "http://10.9.74.92:8080"); //项目上线后改成页面的地址
     res.header("Access-Control-Allow-Headers", "X-Requested-With,Content-Type");
     res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
     res.send({
@@ -114,8 +114,8 @@ app.use('/', function (req, res) {
                 'location': [119.187867, 32.276398],
                 'city': '扬州市',
                 'paichusuo': '城北派出所',
-                'hao': '5号',
-                // 'zhuang': '2幢',
+                'hao': '5',
+                // 'zhuang': '2',
                 'unit': '5单元'
             },
             'score': 105.18436,
@@ -132,8 +132,8 @@ app.use('/', function (req, res) {
                 'location': [119.187867, 32.276398],
                 'city': '扬州市',
                 'paichusuo': '城北派出所',
-                'hao': '5号',
-                'zhuang': '2幢',
+                'hao': '5',
+                // 'zhuang': '2',
                 'unit': '5单元'
             },
             'score': 105.18436,
@@ -148,7 +148,9 @@ app.use('/', function (req, res) {
                 'county': '宝应县',
                 'location': [119.315055, 33.245894],
                 'city': '扬州市',
-                'paichusuo': '城北派出所'
+                'paichusuo': '城北派出所',
+                'zhuang': '2',
+                // 'unit': '5单元'
             },
             'score': 105.18436,
             'paichusuo': '城北派出所'
