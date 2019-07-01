@@ -63,7 +63,7 @@
                     <el-button round v-if="best_match_result.source.community">{{best_match_result.source.community}}</el-button>
                     <el-button round v-if="best_match_result.source.road&&best_match_result.tag !== 2">{{best_match_result.source.road}}</el-button>
                     <el-button round v-if="best_match_result.source.road&&best_match_result.tag === 2" type="info">{{best_match_result.source.road}}</el-button>
-                    <el-button round v-if="best_match_result.source.hao">{{best_match_result.source.hao}}</el-button>
+                    <el-button round v-if="best_match_result.source.hao">{{best_match_result.source.hao}}号</el-button>
                     <el-button round v-if="best_match_result.source.hamlet&&best_match_result.tag === 0">{{best_match_result.source.hamlet}}</el-button>
                     <el-button round v-if="best_match_result.source.hamlet&&best_match_result.tag !== 0" type="info">{{best_match_result.source.hamlet}}</el-button>
                     <el-button round v-if="best_match_result.source.zhuang||best_match_result.source.unit">{{best_match_result.source.zhuang}}{{best_match_result.source.unit}}</el-button>
@@ -211,8 +211,8 @@ export default {
       if (this.type === 1) {
         this.$axios({
           method: "get",
-          // url: this.global.localURL
-          url: `${this.global.baseURL}` + "/splitword?address=" + `${this.address}`
+          url: this.global.localURL
+          // url: `${this.global.baseURL}` + "/splitword?address=" + `${this.address}`
         })
           .then(res => {
             this.splitWord = JSON.parse(res.request.response).result;
@@ -228,8 +228,8 @@ export default {
           });
         this.$axios({
           method: "get",
-          // url: this.global.localURL
-          url: `${this.global.baseURL}` + "/search_all_num?address=" + `${this.address}`
+          url: this.global.localURL
+          // url: `${this.global.baseURL}` + "/search_all_num?address=" + `${this.address}`
         })
           .then(res => {
             loading.close();
