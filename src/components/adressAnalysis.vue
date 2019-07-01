@@ -63,10 +63,10 @@
                     <el-button round v-if="best_match_result.source.community">{{best_match_result.source.community}}</el-button>
                     <el-button round v-if="best_match_result.source.road&&best_match_result.tag !== 2">{{best_match_result.source.road}}</el-button>
                     <el-button round v-if="best_match_result.source.road&&best_match_result.tag === 2" type="info">{{best_match_result.source.road}}</el-button>
-                    <el-button round v-if="best_match_result.source.hao||best_match_result.source.zhuang">{{best_match_result.source.hao||''}}{{best_match_result.source.zhuang||''}}</el-button>
+                    <el-button round v-if="best_match_result.source.hao">{{best_match_result.source.hao}}</el-button>
                     <el-button round v-if="best_match_result.source.hamlet&&best_match_result.tag === 0">{{best_match_result.source.hamlet}}</el-button>
                     <el-button round v-if="best_match_result.source.hamlet&&best_match_result.tag !== 0" type="info">{{best_match_result.source.hamlet}}</el-button>
-                    <el-button round v-if="best_match_result.source.unit">{{best_match_result.source.unit}}</el-button>
+                    <el-button round v-if="best_match_result.source.zhuang||best_match_result.source.unit">{{best_match_result.source.zhuang}}{{best_match_result.source.unit}}</el-button>
                   </div>
                 </el-col>
                 <el-col :span="7" :offset="1">
@@ -86,9 +86,9 @@
                       <el-button round v-if="item.source.village">{{item.source.village}}</el-button>
                       <el-button round v-if="item.source.community">{{item.source.community}}</el-button>
                       <el-button round v-if="item.source.road">{{item.source.road}}</el-button>
-                      <el-button round v-if="item.source.hao||item.source.zhuang">{{item.source.hao||''}}{{item.source.zhuang||''}}</el-button>
+                      <el-button round v-if="item.source.hao">{{item.source.hao}}号</el-button>
                       <el-button round v-if="item.source.hamlet">{{item.source.hamlet}}</el-button>
-                      <el-button round v-if="item.source.unit">{{item.source.unit}}</el-button>
+                      <el-button round v-if="item.source.zhuang||item.source.unit">{{item.source.zhuang||''}}{{item.source.unit||''}}</el-button>
                     </div>
                   </el-col>
                   <el-col :span="7" :offset="1">
@@ -229,7 +229,7 @@ export default {
         this.$axios({
           method: "get",
           // url: this.global.localURL
-          url: `${this.global.baseURL}` + "/search_all?address=" + `${this.address}`
+          url: `${this.global.baseURL}` + "/search_all_num?address=" + `${this.address}`
         })
           .then(res => {
             loading.close();
