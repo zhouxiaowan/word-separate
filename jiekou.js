@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 app.get('/pengzhuang', function (req, res) {
-    res.header("Access-Control-Allow-Origin", "http://10.9.74.92:8080"); //项目上线后改成页面的地址
+    res.header("Access-Control-Allow-Origin", "http://10.18.16.156:8080"); //项目上线后改成页面的地址
     res.header("Access-Control-Allow-Headers", "X-Requested-With,Content-Type");
     res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
     res.send({
@@ -99,7 +99,7 @@ app.get('/pengzhuang', function (req, res) {
     })
 })
 app.use('/', function (req, res) {
-    res.header("Access-Control-Allow-Origin", "http://10.9.74.92:8080"); //项目上线后改成页面的地址
+    res.header("Access-Control-Allow-Origin", "http://10.18.16.156:8080"); //项目上线后改成页面的地址
     res.header("Access-Control-Allow-Headers", "X-Requested-With,Content-Type");
     res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
     res.send({
@@ -119,42 +119,44 @@ app.use('/', function (req, res) {
                 'unit': '5单元'
             },
             'score': 105.18436,
-            'paichusuo': '城北派出所'
+            // 'paichusuo': '城北派出所'
         },
-        rest_match_result: [{
-            'match_source': 0,
-            'source': {
-                'village': '真州镇',
-                'community': '梓橦社区',
-                'hamlet': '国税局宿舍',
-                'road': '东园北路',
-                'county': '仪征市',
-                'location': [119.187867, 32.276398],
-                'city': '扬州市',
-                'paichusuo': '城北派出所',
-                'hao': '5',
-                // 'zhuang': '2',
-                'unit': '5单元'
-            },
-            'score': 105.18436,
-            'paichusuo': '城北派出所'
-        }, {
-            'match_source': 0,
-            'source': {
-                'village': '安宜镇',
-                'community': '安民社区',
-                'hamlet': '国税局宿舍',
-                'road': '健康路',
-                'county': '宝应县',
-                'location': [119.315055, 33.245894],
-                'city': '扬州市',
-                'paichusuo': '城北派出所',
-                'zhuang': '2',
-                // 'unit': '5单元'
-            },
-            'score': 105.18436,
-            'paichusuo': '城北派出所'
-        }],
+        rest_match_result: [{},
+            {
+                'match_source': 0,
+                'source': {
+                    'village': '真州镇',
+                    'community': '梓橦社区',
+                    'hamlet': '国税局宿舍',
+                    'road': '东园北路',
+                    // 'county': '仪征市',
+                    'location': [119.187867, 32.276398],
+                    'city': '扬州市',
+                    'paichusuo': '城北派出所',
+                    'hao': '5',
+                    // 'zhuang': '2',
+                    'unit': '5单元'
+                },
+                'score': 105.18436,
+                'paichusuo': '城北派出所'
+            }, {
+                'match_source': 0,
+                'source': {
+                    'village': '安宜镇',
+                    'community': '安民社区',
+                    'hamlet': '国税局宿舍',
+                    'road': '健康路',
+                    'county': '宝应县',
+                    'location': [119.315055, 33.245894],
+                    'city': '扬州市',
+                    'paichusuo': '城北派出所',
+                    'zhuang': '2',
+                    // 'unit': '5单元'
+                },
+                'score': 105.18436,
+                'paichusuo': '城北派出所'
+            }
+        ],
         result: [{
             "tag": 0,
             "word": "\u5168\u5b63\u9152\u5e97"

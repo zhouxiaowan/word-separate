@@ -82,7 +82,7 @@
             </div>
             <div v-if="rest_match_result.length">
               <div v-show="rest_match" class="split-result-list" v-for="(item,index) in rest_match_result" :key="index">
-                <el-row>
+                <el-row v-if="Object.keys(item).length">
                   <el-col :span="16">
                     <div class="Result-list">
                       <!-- <el-button round v-if="item.source.city">{{item.source.city}}</el-button> -->
@@ -219,8 +219,8 @@ export default {
       if (this.type === 1) {
         this.$axios({
           method: "get",
-          url: this.global.localURL
-          // url: `${this.global.baseURL}` + "/splitword?address=" + `${this.address}`
+          // url: this.global.localURL
+          url: `${this.global.baseURL}` + "/splitword?address=" + `${this.address}`
         })
           .then(res => {
             this.splitWord = JSON.parse(res.request.response).result;
@@ -236,8 +236,8 @@ export default {
           });
         this.$axios({
           method: "get",
-          url: this.global.localURL
-          // url: `${this.global.baseURL}` + "/search_all_num?address=" + `${this.address}`
+          // url: this.global.localURL
+          url: `${this.global.baseURL}` + "/search_all_num?address=" + `${this.address}`
         })
           .then(res => {
             loading.close();
