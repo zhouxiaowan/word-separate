@@ -285,10 +285,11 @@ export default {
       this.$axios({
         method: "get",
         // url: this.global.localURL
-        url: `${this.global.baseURL}` + "keda_api"
+        url: `${this.global.baseURL}` + "/keda_api"
       })
         .then(res => {
           console.log("语音搜索:", res);
+          this.address = res.result;
         })
         .catch(err => {
           this.$message.error("哦噢！数据出错了，请联系系统管理员");
