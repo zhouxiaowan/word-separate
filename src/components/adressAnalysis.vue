@@ -283,6 +283,7 @@ export default {
       }
     },
     voiceSearch() {
+      this.address = "";
       this.$msgbox({
         title: "请说话...",
         showConfirmButton: false,
