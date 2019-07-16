@@ -295,25 +295,14 @@ export default {
           </div>
         )
       }).then(action => {});
-      var loading2;
-      setTimeout(() => {
-        this.$msgbox.close();
-        loading2 = this.$loading({
-          lock: true,
-          text: "Loading",
-          spinner: "el-icon-loading",
-          background: "rgba(0, 0, 0, 0.1)"
-        });
-      }, 6000);
       this.$axios({
         method: "get",
         // url: this.global.localURL
         url: `${this.global.baseURL}` + "/keda_api"
       })
         .then(res => {
-          console.log("语音搜索:", res);
           this.address = res.data.result;
-          loading2.close();
+          this.$msgbox.close();
           setTimeout(() => {
             this.adrAnaly();
           }, 2000);
