@@ -189,6 +189,7 @@
 <script>
 import "../assets/fonts/iconfont.css";
 import { constants } from "crypto";
+import { setTimeout, clearTimeout } from "timers";
 export default {
   data() {
     return {
@@ -227,8 +228,8 @@ export default {
       if (this.type === 1) {
         this.$axios({
           method: "get",
-          url: this.global.localURL
-          // url: `${this.global.baseURL}` + "/splitword?address=" + `${this.address}`
+          // url: this.global.localURL
+          url: `${this.global.baseURL}` + "/splitword?address=" + `${this.address}`
         })
           .then(res => {
             this.splitWord = JSON.parse(res.request.response).result;
@@ -244,8 +245,8 @@ export default {
           });
         this.$axios({
           method: "get",
-          url: this.global.localURL
-          // url: `${this.global.baseURL}` + "/search_all_num?address=" + `${this.address}`
+          // url: this.global.localURL
+          url: `${this.global.baseURL}` + "/search_all_num?address=" + `${this.address}`
         })
           .then(res => {
             loading.close();
@@ -264,8 +265,8 @@ export default {
         });
         this.$axios({
           method: "get",
-          url: `${this.global.localURL}` + "/pengzhuang"
-          // url: `${this.global.baseURL}` + "/addrCollide?address=" + `${this.address}`
+          // url: `${this.global.localURL}` + "/pengzhuang"
+          url: `${this.global.baseURL}` + "/addrCollide?address=" + `${this.address}`
         })
           .then(res => {
             loading.close();
@@ -281,7 +282,13 @@ export default {
       }
     },
     voiceSearch() {
-      console.log("123");
+      this.$msgbox({
+        title: "请说话...",
+        showConfirmButton: false
+      }).then(action => {});
+      setTimeout(() => {
+        this.$msgbox.close();
+      }, 6000);
       this.$axios({
         method: "get",
         // url: this.global.localURL
@@ -290,6 +297,7 @@ export default {
         .then(res => {
           console.log("语音搜索:", res);
           this.address = res.data.result;
+          this.adrAnaly();
         })
         .catch(err => {
           this.$message.error("哦噢！数据出错了，请联系系统管理员");
