@@ -188,6 +188,7 @@
 
 <script>
 import "../assets/fonts/iconfont.css";
+import "../assets/css/loaders.css";
 import { constants } from "crypto";
 import { setTimeout, clearTimeout } from "timers";
 export default {
@@ -284,10 +285,25 @@ export default {
     voiceSearch() {
       this.$msgbox({
         title: "请说话...",
-        showConfirmButton: false
+        showConfirmButton: false,
+        dangerouslyUseHTMLString: true,
+        message: (
+          <div class="vbox">
+            <div class="ball-scale-ripple">
+              <div></div>
+            </div>
+          </div>
+        )
       }).then(action => {});
+      var loading2;
       setTimeout(() => {
         this.$msgbox.close();
+        loading2 = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.1)"
+        });
       }, 6000);
       this.$axios({
         method: "get",
@@ -297,12 +313,14 @@ export default {
         .then(res => {
           console.log("语音搜索:", res);
           this.address = res.data.result;
+          loading2.close();
           setTimeout(() => {
             this.adrAnaly();
           }, 2000);
         })
         .catch(err => {
           this.$message.error("哦噢！数据出错了，请联系系统管理员");
+          loading2.close();
         });
     },
     handleSplitWord() {
@@ -439,6 +457,10 @@ a {
   position: absolute;
   top: 12px;
   right: 137px;
+}
+.ball-scale-ripple > div {
+  border: 2px solid #409eff !important;
+  margin-left: 45%;
 }
 </style>
 
