@@ -297,7 +297,9 @@ export default {
         .then(res => {
           console.log("语音搜索:", res);
           this.address = res.data.result;
-          this.adrAnaly();
+          setTimeout(() => {
+            this.adrAnaly();
+          }, 2000);
         })
         .catch(err => {
           this.$message.error("哦噢！数据出错了，请联系系统管理员");
