@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 app.get('/pengzhuang', function (req, res) {
-    res.header("Access-Control-Allow-Origin", "http://10.18.16.156:8080"); //项目上线后改成页面的地址
+    res.header("Access-Control-Allow-Origin", "http://10.9.74.56:8080"); //项目上线后改成页面的地址
     res.header("Access-Control-Allow-Headers", "X-Requested-With,Content-Type");
     res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
     res.send({
@@ -99,7 +99,7 @@ app.get('/pengzhuang', function (req, res) {
     })
 })
 app.use('/', function (req, res) {
-    res.header("Access-Control-Allow-Origin", "http://10.18.16.156:8080"); //项目上线后改成页面的地址
+    res.header("Access-Control-Allow-Origin", "http://10.9.74.56:8080"); //项目上线后改成页面的地址
     res.header("Access-Control-Allow-Headers", "X-Requested-With,Content-Type");
     res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
     res.send({

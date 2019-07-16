@@ -7,26 +7,32 @@
             <p class="input_header">请输入地址</p>
           </el-col>
           <el-col :span="20">
-            <el-input v-if="address" v-model="address" @keyup.enter.native="adrAnaly">
-              <template slot="append">
-                <a href="#" @click="adrAnaly">地址分析</a>
-              </template>
-            </el-input>
-            <el-input v-else v-model="address" clearable>
-              <template slot="append">
-                <a href="#">地址分析</a>
-              </template>
-            </el-input>
+            <div class="input-search">
+              <el-input v-if="address" v-model="address" @keyup.enter.native="adrAnaly">
+                <template slot="append">
+                  <a href="#" @click="adrAnaly">地址分析</a>
+                </template>
+              </el-input>
+              <el-input v-else v-model="address" clearable>
+                <template slot="append">
+                  <a href="#">地址分析</a>
+                </template>
+              </el-input>
+              <el-tooltip effect="dark" content="按语音搜索" placement="bottom">
+                <span class="iconfont speech-input" @click="voiceSearch">&#xe673;</span>
+              </el-tooltip>
+              <p v-if="tags.length" class="clear_p" slot="content">
+                <img @click="handleSplitWord" class="clear_input" src="../assets/img/clear.png" />
+              </p>
+              <p v-if="splitWords.length" class="clear_p">
+                <img @click="handleSplitWordCollision" class="clear_input2" src="../assets/img/clear.png" />
+              </p>
+            </div>
             <!-- 地址分析 -->
             <div class="tags" v-if="type===1">
               <el-row>
                 <el-col :span="21" style="text-align:left">
                   <el-tag :type="tagtypes[index]===0?'':'info'" v-for="(tag,index) in tags" :key="index" closable :disable-transitions="false" @close="handleClose(tag)">{{tag}}</el-tag>
-                </el-col>
-                <el-col :span="3">
-                  <p v-if="tags.length" class="clear_p">
-                    <img @click="handleSplitWord" class="clear_input" src="../assets/img/clear.png">
-                  </p>
                 </el-col>
               </el-row>
             </div>
@@ -35,11 +41,11 @@
               <div class="special-word" v-if="splitWords.length">
                 <el-row>
                   <el-col :span="21" style="text-align:left" v-html="splitWords"></el-col>
-                  <el-col :span="3">
+                  <!-- <el-col :span="3">
                     <p class="clear_p">
-                      <img @click="handleSplitWordCollision" class="clear_input2" src="../assets/img/clear.png">
+                      <img @click="handleSplitWordCollision" class="clear_input2" src="../assets/img/clear.png" />
                     </p>
-                  </el-col>
+                  </el-col>-->
                 </el-row>
               </div>
             </div>
@@ -166,11 +172,11 @@
           <div class="more" @click="isRestMatch">
             <div v-if="!rest_match">
               <span>展示更多</span>
-              <img class="arrow-more" src="../assets/img/arrow-down.png">
+              <img class="arrow-more" src="../assets/img/arrow-down.png" />
             </div>
             <div v-else>
               <span>收起</span>
-              <img class="arrow-more" src="../assets/img/arrow-up.png">
+              <img class="arrow-more" src="../assets/img/arrow-up.png" />
             </div>
           </div>
         </div>
@@ -181,6 +187,8 @@
 </template>
 
 <script>
+import "../assets/fonts/iconfont.css";
+import { constants } from "crypto";
 export default {
   data() {
     return {
@@ -219,8 +227,8 @@ export default {
       if (this.type === 1) {
         this.$axios({
           method: "get",
-          // url: this.global.localURL
-          url: `${this.global.baseURL}` + "/splitword?address=" + `${this.address}`
+          url: this.global.localURL
+          // url: `${this.global.baseURL}` + "/splitword?address=" + `${this.address}`
         })
           .then(res => {
             this.splitWord = JSON.parse(res.request.response).result;
@@ -236,8 +244,8 @@ export default {
           });
         this.$axios({
           method: "get",
-          // url: this.global.localURL
-          url: `${this.global.baseURL}` + "/search_all_num?address=" + `${this.address}`
+          url: this.global.localURL
+          // url: `${this.global.baseURL}` + "/search_all_num?address=" + `${this.address}`
         })
           .then(res => {
             loading.close();
@@ -256,8 +264,8 @@ export default {
         });
         this.$axios({
           method: "get",
-          // url: `${this.global.localURL}` + "/pengzhuang"
-          url: `${this.global.baseURL}` + "/addrCollide?address=" + `${this.address}`
+          url: `${this.global.localURL}` + "/pengzhuang"
+          // url: `${this.global.baseURL}` + "/addrCollide?address=" + `${this.address}`
         })
           .then(res => {
             loading.close();
@@ -271,6 +279,20 @@ export default {
             this.$message.error("哦噢！数据出错了，请联系系统管理员");
           });
       }
+    },
+    voiceSearch() {
+      console.log("123");
+      this.$axios({
+        method: "get",
+        // url: this.global.localURL
+        url: `${this.global.baseURL}` + "keda_api"
+      })
+        .then(res => {
+          console.log("语音搜索:", res);
+        })
+        .catch(err => {
+          this.$message.error("哦噢！数据出错了，请联系系统管理员");
+        });
     },
     handleSplitWord() {
       this.tags = [];
@@ -328,7 +350,9 @@ a {
 .clear_input {
   cursor: pointer;
   width: 20px;
-  vertical-align: -webkit-baseline-middle;
+  position: absolute;
+  right: 137px;
+  top: 13px;
 }
 .tips {
   color: #ffffff;
@@ -353,9 +377,9 @@ a {
 }
 .tags {
   position: absolute;
-  width: 69%;
   top: 7px;
   left: 18%;
+  right: 157px;
 }
 .el-tag {
   margin-right: 10px;
@@ -374,7 +398,7 @@ a {
 .special-word {
   background: #ffffff;
   position: absolute;
-  width: 70%;
+  width: 55%;
   top: 1px;
   left: 18%;
   height: 43px;
@@ -388,6 +412,22 @@ a {
 }
 .el-button + .el-button {
   margin-left: 0px;
+}
+.speech-input {
+  color: #cdcdcd;
+  cursor: pointer;
+  position: absolute;
+  right: 102px;
+  top: 8px;
+  font-size: 30px;
+  width: 30px;
+}
+.clear_input2 {
+  cursor: pointer;
+  width: 20px;
+  position: absolute;
+  top: 12px;
+  right: 137px;
 }
 </style>
 
