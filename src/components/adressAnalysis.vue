@@ -289,7 +289,7 @@ export default {
       })
         .then(res => {
           console.log("语音搜索:", res);
-          this.address = res.result;
+          this.address = res.data.result;
         })
         .catch(err => {
           this.$message.error("哦噢！数据出错了，请联系系统管理员");
