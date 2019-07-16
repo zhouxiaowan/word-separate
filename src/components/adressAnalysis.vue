@@ -19,7 +19,7 @@
                 </template>
               </el-input>
               <el-tooltip effect="dark" content="按语音搜索" placement="bottom">
-                <span class="iconfont speech-input" @click="voiceSearch">&#xe673;</span>
+                <span style="outline:none" class="iconfont speech-input" @click="voiceSearch">&#xe673;</span>
               </el-tooltip>
               <p v-if="tags.length" class="clear_p" slot="content">
                 <img @click="handleSplitWord" class="clear_input" src="../assets/img/clear.png" />
