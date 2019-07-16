@@ -11,7 +11,7 @@
               <el-option v-for="item in addressMatching" :key="item" :label="item" :value="item"></el-option>
             </el-select>
             <p class="clear_p" v-if="address">
-              <img @click="handleSplitWord" class="clear_input2" src="../assets/img/clear.png">
+              <img @click="handleSplitWord" class="clear_input2" src="../assets/img/clear.png" />
             </p>
           </el-col>
         </el-row>
@@ -64,11 +64,11 @@
           <div class="more" @click="isRestMatch">
             <div v-if="!rest_match">
               <span>展示更多</span>
-              <img class="arrow-more" src="../assets/img/arrow-down.png">
+              <img class="arrow-more" src="../assets/img/arrow-down.png" />
             </div>
             <div v-else>
               <span>收起</span>
-              <img class="arrow-more" src="../assets/img/arrow-up.png">
+              <img class="arrow-more" src="../assets/img/arrow-up.png" />
             </div>
           </div>
         </div>
@@ -222,6 +222,13 @@ a {
 }
 .el-tag {
   margin-right: 10px;
+}
+.clear_input2 {
+  cursor: pointer;
+  width: 20px;
+  position: absolute;
+  top: 0px;
+  right: 10px;
 }
 </style>
 
