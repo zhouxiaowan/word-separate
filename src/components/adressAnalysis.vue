@@ -313,11 +313,12 @@ export default {
           message: (
             <div class="vbox">
               <div class="ball-scale-ripple">
-                <div></div>
+                <div>
+                  <span style="outline:none;" class="iconfont speech-input-top">
+                    &#xe673;
+                  </span>
+                </div>
               </div>
-              <span style="outline:none;left: 46%;top: 21px;color: #409eff;" class="iconfont speech-input">
-                &#xe673;
-              </span>
             </div>
           )
         }).then(action => {});
@@ -349,7 +350,9 @@ export default {
             this.address = res.data.result;
             this.$msgbox.close();
             setTimeout(() => {
-              this.adrAnaly();
+              if (this.address) {
+                this.adrAnaly();
+              }
             }, 2000);
           })
           .catch(err => {
@@ -492,6 +495,12 @@ a {
   font-size: 30px;
   width: 30px;
 }
+.speech-input-top {
+  color: rgb(64, 158, 255);
+  cursor: pointer;
+  font-size: 30px;
+  width: 30px;
+}
 .clear_input2 {
   cursor: pointer;
   width: 20px;
@@ -502,6 +511,9 @@ a {
 .ball-scale-ripple > div {
   border: 2px solid #409eff !important;
   margin-left: 45%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }
 </style>
 
