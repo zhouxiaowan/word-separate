@@ -337,7 +337,7 @@ export default {
             // }, 2000);
           })
           .catch(err => {
-            this.$message.error("哦噢！数据出错了，请联系系统管理员");
+            // this.$message.error("哦噢！数据出错了，请联系系统管理员");
           });
       } else {
         this.$axios({
@@ -346,6 +346,7 @@ export default {
           url: `${this.global.baseURL}` + "/keda?keep=" + `${keep}`
         })
           .then(res => {
+            console.log("res", res);
             this.address = res.data.result;
             this.$msgbox.close();
             setTimeout(() => {
