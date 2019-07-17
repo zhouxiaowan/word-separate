@@ -328,13 +328,13 @@ export default {
           url: `${this.global.baseURL}` + "/keda_api?keep=" + `${keep}`
         })
           .then(res => {
-            if (keep == 0) {
-              this.address = res.data.result;
-              this.$msgbox.close();
-            }
-            setTimeout(() => {
-              this.adrAnaly();
-            }, 2000);
+            // if (keep == 0) {
+            //   this.address = res.data.result;
+            //   this.$msgbox.close();
+            // }
+            // setTimeout(() => {
+            //   this.adrAnaly();
+            // }, 2000);
           })
           .catch(err => {
             this.$message.error("哦噢！数据出错了，请联系系统管理员");
@@ -346,10 +346,8 @@ export default {
           url: `${this.global.baseURL}` + "/keda"
         })
           .then(res => {
-            if (keep == 0) {
-              this.address = res.data.result;
-              this.$msgbox.close();
-            }
+            this.address = res.data.result;
+            this.$msgbox.close();
             setTimeout(() => {
               this.adrAnaly();
             }, 2000);
