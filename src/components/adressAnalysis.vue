@@ -227,6 +227,7 @@ export default {
       kflag = false;
       if (kupfalg && (e.keyCode === 32 || !e.shiftKey)) {
         this.voiceSearch(0);
+        console.log(1234);
         kupfalg = false;
       }
     };
@@ -304,7 +305,7 @@ export default {
     },
     voiceSearch(keep) {
       this.address = "";
-      console.log("keep:", keep);
+      // console.log("keep:", keep);
       if (keep == 1) {
         this.$msgbox({
           title: "请说话...",
@@ -315,27 +316,48 @@ export default {
               <div class="ball-scale-ripple">
                 <div></div>
               </div>
+              <span style="outline:none;left: 46%;top: 21px;color: #409eff;" class="iconfont speech-input">
+                &#xe673;
+              </span>
             </div>
           )
         }).then(action => {});
-      }
-      this.$axios({
-        method: "get",
-        // url: this.global.localURL
-        url: `${this.global.baseURL}` + "/keda_api?keep=" + `${keep}`
-      })
-        .then(res => {
-          if (keep == 0) {
-            this.address = res.data.result;
-            this.$msgbox.close();
-          }
-          setTimeout(() => {
-            this.adrAnaly();
-          }, 2000);
+        this.$axios({
+          method: "get",
+          // url: this.global.localURL
+          url: `${this.global.baseURL}` + "/keda_api?keep=" + `${keep}`
         })
-        .catch(err => {
-          this.$message.error("哦噢！数据出错了，请联系系统管理员");
-        });
+          .then(res => {
+            if (keep == 0) {
+              this.address = res.data.result;
+              this.$msgbox.close();
+            }
+            setTimeout(() => {
+              this.adrAnaly();
+            }, 2000);
+          })
+          .catch(err => {
+            this.$message.error("哦噢！数据出错了，请联系系统管理员");
+          });
+      } else {
+        this.$axios({
+          method: "get",
+          // url: this.global.localURL
+          url: `${this.global.baseURL}` + "/keda"
+        })
+          .then(res => {
+            if (keep == 0) {
+              this.address = res.data.result;
+              this.$msgbox.close();
+            }
+            setTimeout(() => {
+              this.adrAnaly();
+            }, 2000);
+          })
+          .catch(err => {
+            this.$message.error("哦噢！数据出错了，请联系系统管理员");
+          });
+      }
     },
     enablSearch(keep) {
       if (keep == 1) {
