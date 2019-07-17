@@ -19,7 +19,7 @@
                 </template>
               </el-input>
               <el-tooltip effect="dark" content="按语音搜索" placement="bottom">
-                <span style="outline:none" class="iconfont speech-input" @click="voiceSearch">&#xe673;</span>
+                <span style="outline:none" class="iconfont speech-input" @keydown.space="enablSearch(1)" @keyup.space="enablSearch(0)" @click="voiceSearch">&#xe673;</span>
               </el-tooltip>
               <p v-if="tags.length" class="clear_p" slot="content">
                 <img @click="handleSplitWord" class="clear_input" src="../assets/img/clear.png" />
@@ -210,6 +210,18 @@ export default {
     };
   },
   components: {},
+  created() {
+    document.onkeydown = e => {
+      if (e.keyCode === 32 && e.altKey) {
+        this.voiceSearch(1);
+      }
+    };
+    document.onkeyup = e => {
+      if (e.keyCode === 32 || !e.altKey) {
+        this.voiceSearch(0);
+      }
+    };
+  },
   methods: {
     adrAnaly() {
       const loading = this.$loading({
@@ -271,7 +283,6 @@ export default {
         })
           .then(res => {
             loading.close();
-            console.log(res);
             this.best_match_result = res.data.best_match;
             this.rest_match_result = res.data.rest_match;
             this.is_ResultList = true;
@@ -282,7 +293,7 @@ export default {
           });
       }
     },
-    voiceSearch() {
+    voiceSearch(keep) {
       this.address = "";
       this.$msgbox({
         title: "请说话...",
@@ -299,19 +310,27 @@ export default {
       this.$axios({
         method: "get",
         // url: this.global.localURL
-        url: `${this.global.baseURL}` + "/keda_api"
+        url: `${this.global.baseURL}` + "/keda_api?keep=" + `${keep}`
       })
         .then(res => {
-          this.address = res.data.result;
-          this.$msgbox.close();
+          if (keep == 0) {
+            this.address = res.data.result;
+            this.$msgbox.close();
+          }
           setTimeout(() => {
             this.adrAnaly();
           }, 2000);
         })
         .catch(err => {
           this.$message.error("哦噢！数据出错了，请联系系统管理员");
-          loading2.close();
         });
+    },
+    enablSearch(keep) {
+      if (keep == 1) {
+        console.log(1);
+      } else {
+        console.log(0);
+      }
     },
     handleSplitWord() {
       this.tags = [];
