@@ -19,7 +19,7 @@
                 </template>
               </el-input>
               <el-tooltip effect="dark" content="按语音搜索" placement="bottom">
-                <span style="outline:none" class="iconfont speech-input" @keydown.space="enablSearch(1)" @keyup.space="enablSearch(0)" @click="voiceSearch">&#xe673;</span>
+                <span style="outline:none" class="iconfont speech-input" @keyup.space="enablSearch(0)" @click="voiceSearch(1)">&#xe673;</span>
               </el-tooltip>
               <p v-if="tags.length" class="clear_p" slot="content">
                 <img @click="handleSplitWord" class="clear_input" src="../assets/img/clear.png" />
@@ -211,14 +211,23 @@ export default {
   },
   components: {},
   created() {
+    let kflag = false;
+    let kupfalg = true;
     document.onkeydown = e => {
-      if (e.keyCode === 32 && e.altKey) {
+      kupfalg = true;
+      if (kflag) {
+        e.preventDefault();
+      } else if (e.keyCode === 32 && e.shiftKey) {
+        //执行搜索函数
+        kflag = true;
         this.voiceSearch(1);
       }
     };
     document.onkeyup = e => {
-      if (e.keyCode === 32 || !e.altKey) {
+      kflag = false;
+      if (kupfalg && (e.keyCode === 32 || !e.shiftKey)) {
         this.voiceSearch(0);
+        kupfalg = false;
       }
     };
   },
@@ -295,18 +304,21 @@ export default {
     },
     voiceSearch(keep) {
       this.address = "";
-      this.$msgbox({
-        title: "请说话...",
-        showConfirmButton: false,
-        dangerouslyUseHTMLString: true,
-        message: (
-          <div class="vbox">
-            <div class="ball-scale-ripple">
-              <div></div>
+      console.log("keep:", keep);
+      if (keep == 1) {
+        this.$msgbox({
+          title: "请说话...",
+          showConfirmButton: false,
+          dangerouslyUseHTMLString: true,
+          message: (
+            <div class="vbox">
+              <div class="ball-scale-ripple">
+                <div></div>
+              </div>
             </div>
-          </div>
-        )
-      }).then(action => {});
+          )
+        }).then(action => {});
+      }
       this.$axios({
         method: "get",
         // url: this.global.localURL
