@@ -227,7 +227,6 @@ export default {
       kflag = false;
       if (kupfalg && (e.keyCode === 32 || !e.shiftKey)) {
         this.voiceSearch(0);
-        console.log(1234);
         kupfalg = false;
       }
     };
@@ -343,7 +342,7 @@ export default {
         this.$axios({
           method: "get",
           // url: this.global.localURL
-          url: `${this.global.baseURL}` + "/keda?keep=" + `${keep}`
+          url: `${this.global.baseURL}` + "/keda?keep=0"
         })
           .then(res => {
             console.log("res", res);
