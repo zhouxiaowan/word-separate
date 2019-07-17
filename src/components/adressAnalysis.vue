@@ -343,7 +343,7 @@ export default {
         this.$axios({
           method: "get",
           // url: this.global.localURL
-          url: `${this.global.baseURL}` + "/keda"
+          url: `${this.global.baseURL}` + "/keda?keep=" + `${keep}`
         })
           .then(res => {
             this.address = res.data.result;
