@@ -331,6 +331,12 @@ export default {
                 .then(res => {})
                 .catch(err => {});
             } else {
+              this.$axios({
+                method: "get",
+                url: `${this.global.baseURL}` + "/keda?keep=0"
+              })
+                .then(res => {})
+                .catch(err => {});
               done();
             }
           }
