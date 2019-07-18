@@ -212,9 +212,7 @@ export default {
   components: {},
   created() {
     let kflag = false;
-    let kupfalg = true;
     document.onkeydown = e => {
-      kupfalg = true;
       if (kflag) {
         e.preventDefault();
       } else if (e.keyCode === 32 && e.shiftKey) {
@@ -225,12 +223,12 @@ export default {
     };
     document.onkeyup = e => {
       kflag = false;
-      if (kupfalg && (e.keyCode === 32 || !e.shiftKey)) {
+      if (e.shiftKey) {
         this.voiceSearch(0);
-        kupfalg = false;
       }
     };
   },
+
   methods: {
     adrAnaly() {
       const loading = this.$loading({
@@ -250,8 +248,8 @@ export default {
       if (this.type === 1) {
         this.$axios({
           method: "get",
-          // url: this.global.localURL
-          url: `${this.global.baseURL}` + "/splitword?address=" + `${this.address}`
+          url: this.global.localURL
+          // url: `${this.global.baseURL}` + "/splitword?address=" + `${this.address}`
         })
           .then(res => {
             this.splitWord = JSON.parse(res.request.response).result;
@@ -267,8 +265,8 @@ export default {
           });
         this.$axios({
           method: "get",
-          // url: this.global.localURL
-          url: `${this.global.baseURL}` + "/search_all_num?address=" + `${this.address}`
+          url: this.global.localURL
+          // url: `${this.global.baseURL}` + "/search_all_num?address=" + `${this.address}`
         })
           .then(res => {
             loading.close();
@@ -287,8 +285,8 @@ export default {
         });
         this.$axios({
           method: "get",
-          // url: `${this.global.localURL}` + "/pengzhuang"
-          url: `${this.global.baseURL}` + "/addrCollide?address=" + `${this.address}`
+          url: `${this.global.localURL}` + "/pengzhuang"
+          // url: `${this.global.baseURL}` + "/addrCollide?address=" + `${this.address}`
         })
           .then(res => {
             loading.close();
