@@ -223,7 +223,7 @@ export default {
     };
     document.onkeyup = e => {
       kflag = false;
-      // console.log(e.shiftKey, e.keyCode);
+      console.log(e.shiftKey, e.keyCode);
       if (!e.shiftKey && e.keyCode === 16) {
         this.voiceSearch(0);
       }
@@ -302,9 +302,9 @@ export default {
       }
     },
     voiceSearch(keep) {
-      this.address = "";
       // console.log("keep:", keep);
       if (keep == 1) {
+        this.address = "";
         this.$msgbox({
           title: "请说话...",
           showConfirmButton: false,
@@ -327,25 +327,6 @@ export default {
           url: `${this.global.baseURL}` + "/keda_api?keep=" + `${keep}`
         })
           .then(res => {
-            // if (keep == 0) {
-            //   this.address = res.data.result;
-            //   this.$msgbox.close();
-            // }
-            // setTimeout(() => {
-            //   this.adrAnaly();
-            // }, 2000);
-          })
-          .catch(err => {
-            // this.$message.error("哦噢！数据出错了，请联系系统管理员");
-          });
-      } else {
-        this.$axios({
-          method: "get",
-          // url: this.global.localURL
-          url: `${this.global.baseURL}` + "/keda?keep=0"
-        })
-          .then(res => {
-            console.log("res", res);
             this.address = res.data.result;
             this.$msgbox.close();
             setTimeout(() => {
@@ -355,15 +336,16 @@ export default {
             }, 2000);
           })
           .catch(err => {
-            // this.$message.error("哦噢！数据出错了，请联系系统管理员");
+            this.$message.error("哦噢！数据出错了，请联系系统管理员");
           });
-      }
-    },
-    enablSearch(keep) {
-      if (keep == 1) {
-        console.log(1);
       } else {
-        console.log(0);
+        this.$axios({
+          method: "get",
+          // url: this.global.localURL
+          url: `${this.global.baseURL}` + "/keda?keep=0"
+        })
+          .then(res => {})
+          .catch(err => {});
       }
     },
     handleSplitWord() {
