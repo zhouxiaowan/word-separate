@@ -248,8 +248,8 @@ export default {
       if (this.type === 1) {
         this.$axios({
           method: "get",
-          url: this.global.localURL
-          // url: `${this.global.baseURL}` + "/splitword?address=" + `${this.address}`
+          // url: this.global.localURL
+          url: `${this.global.baseURL}` + "/splitword?address=" + `${this.address}`
         })
           .then(res => {
             this.splitWord = JSON.parse(res.request.response).result;
@@ -265,8 +265,8 @@ export default {
           });
         this.$axios({
           method: "get",
-          url: this.global.localURL
-          // url: `${this.global.baseURL}` + "/search_all_num?address=" + `${this.address}`
+          // url: this.global.localURL
+          url: `${this.global.baseURL}` + "/search_all_num?address=" + `${this.address}`
         })
           .then(res => {
             loading.close();
@@ -285,8 +285,8 @@ export default {
         });
         this.$axios({
           method: "get",
-          url: `${this.global.localURL}` + "/pengzhuang"
-          // url: `${this.global.baseURL}` + "/addrCollide?address=" + `${this.address}`
+          // url: `${this.global.localURL}` + "/pengzhuang"
+          url: `${this.global.baseURL}` + "/addrCollide?address=" + `${this.address}`
         })
           .then(res => {
             loading.close();
