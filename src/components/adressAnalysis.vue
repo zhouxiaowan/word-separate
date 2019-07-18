@@ -323,7 +323,6 @@ export default {
         }).then(action => {});
         this.$axios({
           method: "get",
-          // url: this.global.localURL
           url: `${this.global.baseURL}` + "/keda_api?keep=" + `${keep}`
         })
           .then(res => {
@@ -341,7 +340,6 @@ export default {
       } else {
         this.$axios({
           method: "get",
-          // url: this.global.localURL
           url: `${this.global.baseURL}` + "/keda?keep=0"
         })
           .then(res => {})
