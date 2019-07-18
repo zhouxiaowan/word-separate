@@ -223,7 +223,7 @@ export default {
     };
     document.onkeyup = e => {
       kflag = false;
-      console.log(e.shiftKey, e.keyCode);
+      // console.log(e.shiftKey, e.keyCode);
       if (!e.shiftKey && e.keyCode === 16) {
         this.voiceSearch(0);
       }
@@ -307,7 +307,7 @@ export default {
         this.address = "";
         this.$msgbox({
           title: "请说话...",
-          showConfirmButton: false,
+          // showConfirmButton: false,
           dangerouslyUseHTMLString: true,
           message: (
             <div class="vbox">
@@ -319,7 +319,21 @@ export default {
                 </div>
               </div>
             </div>
-          )
+          ),
+          beforeClose: (action, instance, done) => {
+            if (action === "confirm") {
+              // instance.confirmButtonLoading = true;
+              instance.confirmButtonText = "解析中...";
+              this.$axios({
+                method: "get",
+                url: `${this.global.baseURL}` + "/keda?keep=0"
+              })
+                .then(res => {})
+                .catch(err => {});
+            } else {
+              done();
+            }
+          }
         }).then(action => {});
         this.$axios({
           method: "get",
