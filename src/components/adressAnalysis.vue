@@ -223,7 +223,8 @@ export default {
     };
     document.onkeyup = e => {
       kflag = false;
-      if (e.shiftKey) {
+      // console.log(e.shiftKey, e.keyCode);
+      if (!e.shiftKey && e.keyCode === 16) {
         this.voiceSearch(0);
       }
     };
@@ -354,7 +355,7 @@ export default {
             }, 2000);
           })
           .catch(err => {
-            this.$message.error("哦噢！数据出错了，请联系系统管理员");
+            // this.$message.error("哦噢！数据出错了，请联系系统管理员");
           });
       }
     },
