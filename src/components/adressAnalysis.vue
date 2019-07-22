@@ -18,9 +18,9 @@
                   <a href="#">地址分析</a>
                 </template>
               </el-input>
-              <el-tooltip effect="dark" content="按语音搜索" placement="bottom">
+              <!-- <el-tooltip effect="dark" content="按语音搜索" placement="bottom">
                 <span style="outline:none" class="iconfont speech-input" @keyup.space="enablSearch(0)" @click="voiceSearch(1)">&#xe673;</span>
-              </el-tooltip>
+              </el-tooltip>-->
               <p v-if="tags.length" class="clear_p" slot="content">
                 <img @click="handleSplitWord" class="clear_input" src="../assets/img/clear.png" />
               </p>
@@ -210,25 +210,24 @@ export default {
     };
   },
   components: {},
-  created() {
-    let kflag = false;
-    document.onkeydown = e => {
-      if (kflag) {
-        e.preventDefault();
-      } else if (e.keyCode === 32 && e.shiftKey) {
-        //执行搜索函数
-        kflag = true;
-        this.voiceSearch(1);
-      }
-    };
-    document.onkeyup = e => {
-      kflag = false;
-      // console.log(e.shiftKey, e.keyCode);
-      if (!e.shiftKey && e.keyCode === 16) {
-        this.voiceSearch(0);
-      }
-    };
-  },
+  // created() {
+  //   let kflag = false;
+  //   document.onkeydown = e => {
+  //     if (kflag) {
+  //       e.preventDefault();
+  //     } else if (e.keyCode === 32 && e.shiftKey) {
+  //       //执行搜索函数
+  //       kflag = true;
+  //       this.voiceSearch(1);
+  //     }
+  //   };
+  //   document.onkeyup = e => {
+  //     kflag = false;
+  //     if (!e.shiftKey && e.keyCode === 16) {
+  //       this.voiceSearch(0);
+  //     }
+  //   };
+  // },
 
   methods: {
     adrAnaly() {
