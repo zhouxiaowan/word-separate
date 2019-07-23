@@ -189,7 +189,7 @@ app.use('/', function (req, res) {
         //     'label': '广州',
         //     'value': '6'
         // }],
-        result_pinyin: ['北京市朝阳区', '北京市海淀区', '上海', '广州'],
+        result_pinyin: ['\u6d66\u897f\u4e00\u6751'],
         data: {
             "best_match": {
                 "address": {

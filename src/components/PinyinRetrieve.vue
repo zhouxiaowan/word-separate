@@ -108,12 +108,12 @@ export default {
         }
         this.$axios({
           method: "get",
-          url: this.global.localURL
-          // url: `${this.global.baseURL}` + "/pinyinSearch?address=" + `${params.address}` + "?havepinyin=" + `${params.havepinyin}`
+          // url: this.global.localURL
+          url: "https://192.168.160.131:5000/pinyinSearch?address=" + `${params.address}` + "?havepinyin=" + `${params.havepinyin}`
         })
           .then(res => {
             this.loading = false;
-            this.addressMatching = res.data.result_pinyin;
+            this.addressMatching = res.data;
           })
           .catch(error => {
             this.$message.error("哦噢！数据出错了，请联系系统管理员");
@@ -131,8 +131,8 @@ export default {
       });
       this.$axios({
         method: "get",
-        url: this.global.localURL
-        // url: `${this.global.baseURL}` + "/search_all?address=" + `${this.address}`
+        // url: this.global.localURL
+        url: `${this.global.baseURL}` + "/search_all?address=" + `${this.address}`
       })
         .then(res => {
           loading.close();
