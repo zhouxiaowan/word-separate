@@ -98,18 +98,13 @@ export default {
         this.loading = true;
         const reg = /([a-z]+)/g;
         const params = {
-          address: query,
-          havepinyin: false
+          address: query
         };
-        if (reg.test(query)) {
-          params.havepinyin = true;
-        } else {
-          params.havepinyin = false;
-        }
+
         this.$axios({
           method: "get",
           // url: this.global.localURL
-          url: `${this.global.baseURL}` + "/pinyinSearch?address=" + `${params.address}` + "?havepinyin=" + `${params.havepinyin}`
+          url: `${this.global.baseURL}` + "/pinyinSearch?address=" + `${params.address}`
         })
           .then(res => {
             this.loading = false;
