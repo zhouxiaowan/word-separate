@@ -19,7 +19,7 @@
                 </template>
               </el-input>
               <el-tooltip effect="dark" content="按语音搜索" placement="bottom">
-                <span style="outline:none" class="iconfont speech-input" @keyup.space="enablSearch(0)" @click="voiceSearch(1)">&#xe673;</span>
+                <span style="outline:none" class="iconfont speech-input" @click="startRecording()">&#xe673;</span>
               </el-tooltip>
               <p v-if="tags.length" class="clear_p" slot="content">
                 <img @click="handleSplitWord" class="clear_input" src="../assets/img/clear.png" />
@@ -41,11 +41,6 @@
               <div class="special-word" v-if="splitWords.length">
                 <el-row>
                   <el-col :span="21" style="text-align:left" v-html="splitWords"></el-col>
-                  <!-- <el-col :span="3">
-                    <p class="clear_p">
-                      <img @click="handleSplitWordCollision" class="clear_input2" src="../assets/img/clear.png" />
-                    </p>
-                  </el-col>-->
                 </el-row>
               </div>
             </div>
@@ -191,6 +186,8 @@ import "../assets/fonts/iconfont.css";
 import "../assets/css/loaders.css";
 import { constants } from "crypto";
 import { setTimeout, clearTimeout } from "timers";
+// import HZRecorder from "../assets/js/HZRecorder";
+var recorder;
 export default {
   data() {
     return {
@@ -204,7 +201,6 @@ export default {
       tags: [],
       tagtypes: [],
       type: 1,
-
       splitWords: "",
       buttontype: ["primary", ""]
     };
@@ -218,14 +214,16 @@ export default {
       } else if (e.keyCode === 32 && e.shiftKey) {
         //执行搜索函数
         kflag = true;
-        this.voiceSearch(1);
+        console.log("开始录音");
+        this.startRecording();
       }
     };
     document.onkeyup = e => {
       kflag = false;
       // console.log(e.shiftKey, e.keyCode);
       if (!e.shiftKey && e.keyCode === 16) {
-        this.voiceSearch(0);
+        console.log("停止录音");
+        this.stopRecording();
       }
     };
   },
@@ -301,71 +299,129 @@ export default {
           });
       }
     },
-    voiceSearch(keep) {
-      // console.log("keep:", keep);
-      if (keep == 1) {
-        this.address = "";
-        this.$msgbox({
-          title: "请说话...",
-          // showConfirmButton: false,
-          dangerouslyUseHTMLString: true,
-          message: (
-            <div class="vbox">
-              <div class="ball-scale-ripple">
-                <div>
-                  <span style="outline:none;" class="iconfont speech-input-top">
-                    &#xe673;
-                  </span>
-                </div>
+    // 录音相关函数start 之前后台实现录音功能
+    // voiceSearch(keep) {
+    //   if (keep == 1) {
+    //     this.address = "";
+    //     this.$msgbox({
+    //       title: "请说话...",
+    //       dangerouslyUseHTMLString: true,
+    //       message: (
+    //         <div class="vbox">
+    //           <div class="ball-scale-ripple">
+    //             <div>
+    //               <span style="outline:none;" class="iconfont speech-input-top">
+    //                 &#xe673;
+    //               </span>
+    //             </div>
+    //           </div>
+    //         </div>
+    //       ),
+    //       beforeClose: (action, instance, done) => {
+    //         if (action === "confirm") {
+    //           // instance.confirmButtonLoading = true;
+    //           instance.confirmButtonText = "解析中...";
+    //           this.$axios({
+    //             method: "get",
+    //             url: `${this.global.baseURL}` + "/keda?keep=0"
+    //           })
+    //             .then(res => {})
+    //             .catch(err => {});
+    //         } else {
+    //           this.$axios({
+    //             method: "get",
+    //             url: `${this.global.baseURL}` + "/keda?keep=0"
+    //           })
+    //             .then(res => {})
+    //             .catch(err => {});
+    //           done();
+    //         }
+    //       }
+    //     }).then(action => {});
+    //     this.$axios({
+    //       method: "get",
+    //       url: `${this.global.baseURL}` + "/keda_api?keep=" + `${keep}`
+    //     })
+    //       .then(res => {
+    //         this.address = res.data.result;
+    //         this.$msgbox.close();
+    //         setTimeout(() => {
+    //           if (this.address) {
+    //             this.adrAnaly();
+    //           }
+    //         }, 2000);
+    //       })
+    //       .catch(err => {
+    //         this.$message.error("哦噢！数据出错了，请联系系统管理员");
+    //       });
+    //   } else {
+    //     this.$axios({
+    //       method: "get",
+    //       url: `${this.global.baseURL}` + "/keda?keep=0"
+    //     })
+    //       .then(res => {})
+    //       .catch(err => {});
+    //   }
+    // },
+    startRecording() {
+      HZRecorder.get(function(rec) {
+        recorder = rec;
+        recorder.start();
+      });
+      this.$msgbox({
+        title: "请说话...",
+        dangerouslyUseHTMLString: true,
+        message: (
+          <div class="vbox">
+            <div class="ball-scale-ripple">
+              <div>
+                <span style="outline:none;" class="iconfont speech-input-top">
+                  &#xe673;
+                </span>
               </div>
             </div>
-          ),
-          beforeClose: (action, instance, done) => {
-            if (action === "confirm") {
-              // instance.confirmButtonLoading = true;
-              instance.confirmButtonText = "解析中...";
-              this.$axios({
-                method: "get",
-                url: `${this.global.baseURL}` + "/keda?keep=0"
-              })
-                .then(res => {})
-                .catch(err => {});
-            } else {
-              this.$axios({
-                method: "get",
-                url: `${this.global.baseURL}` + "/keda?keep=0"
-              })
-                .then(res => {})
-                .catch(err => {});
-              done();
-            }
+          </div>
+        ),
+        beforeClose: (action, instance, done) => {
+          if (action === "confirm") {
+            instance.confirmButtonText = "解析中...";
+            this.stopRecording();
+          } else {
+            done();
+            recorder.stop();
           }
-        }).then(action => {});
-        this.$axios({
-          method: "get",
-          url: `${this.global.baseURL}` + "/keda_api?keep=" + `${keep}`
-        })
-          .then(res => {
-            this.address = res.data.result;
-            this.$msgbox.close();
-            setTimeout(() => {
-              if (this.address) {
-                this.adrAnaly();
-              }
-            }, 2000);
-          })
-          .catch(err => {
-            this.$message.error("哦噢！数据出错了，请联系系统管理员");
-          });
-      } else {
-        this.$axios({
-          method: "get",
-          url: `${this.global.baseURL}` + "/keda?keep=0"
-        })
-          .then(res => {})
-          .catch(err => {});
-      }
+        }
+      }).then(action => {});
     },
+    stopRecording() {
+      recorder.stop();
+      this.uploadAudio();
+      // this.$msgbox.close();
+    },
+    uploadAudio() {
+      recorder.upload("http://39.105.11.157:5000/audio", (state, e) => {
+        switch (state) {
+          case "uploading":
+            //var percentComplete = Math.round(e.loaded * 100 / e.total) + '%';
+            break;
+          case "ok":
+            console.log(e.target.responseText);
+            console.log(unescape(e.target.responseText.replace(/\\/g, "%")));
+            const results = unescape(e.target.responseText.replace(/\\/g, "%"));
+            this.address = results;
+            this.$msgbox.close();
+            this.adrAnaly();
+            break;
+          case "error":
+            alert("上传失败");
+            break;
+          case "cancel":
+            alert("上传被取消");
+            break;
+        }
+      });
+    },
+    // 录音相关函数end
     handleSplitWord() {
       this.tags = [];
       this.best_match_result = "";
